@@ -168,3 +168,21 @@ base · themes · layout · components · utilities   ← read-only infrastructu
 
 Every component and layout token derives from `theme.config.css` via `var()` or `calc()`.
 Changing one config variable propagates to every affected component automatically — no hunting across multiple files.
+
+---
+
+## PR Checklist (Agents Adding Components)
+
+Use this checklist before opening or merging a component PR.
+
+- [ ] Scope is component work only (no unrelated theming/layout changes).
+- [ ] New styles are in a dedicated file under `css/components/`.
+- [ ] `css/components.css` imports the new file in correct order.
+- [ ] Component API uses semantic classes (`.c-*`) + `data-*` variants/states.
+- [ ] Only existing tokens are used (`--color-*`, `--space-*`, `--radius-*`, `--motion-*`, `--font-*`).
+- [ ] No hard-coded new colors/fonts/shadows unless explicitly requested.
+- [ ] Mobile-first default styles are used; larger breakpoints are `@media (min-width: ...)` enhancements.
+- [ ] Keyboard and focus behavior are preserved (`:focus-visible`, accessible labels/roles where relevant).
+- [ ] API docs/examples are added or updated in `AGENT_API.md`.
+- [ ] At least one usage example is present in `index.html` or `walkthrough.html`.
+- [ ] Diagnostics run clean (no new errors).

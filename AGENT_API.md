@@ -4,6 +4,101 @@
 > **To use components:** set `data-*` attributes in HTML.  
 > **Do not** edit any other CSS file.
 
+> **Exception:** when the task is specifically “add a new component,” edit only files under `css/components/` plus `css/components.css` (manifest import).
+
+---
+
+## Agent Ruleset – Adding New Components
+
+Use this ruleset any time an agent creates or modifies a component.
+
+### 1) Scope and file boundaries
+
+1. **Do not theme while adding components.** Never change `css/theme.config.css` unless explicitly asked.
+2. **Component styles live in one file each** under `css/components/`.
+3. **Register new component files** in `css/components.css` manifest.
+4. **Do not edit** `tokens.css`, `base.css`, `themes/*`, or `layout.css` for component-only tasks unless explicitly requested.
+
+### 2) Naming and API contract
+
+1. Use semantic class names with the existing convention:
+  - block: `.c-{component}`
+  - elements: `.c-{component}__{part}`
+2. Use `data-*` attributes for variants/states instead of modifier classes.
+  - Example: `data-variant="outline"`, `data-status="warning"`, `data-size="lg"`
+3. Keep APIs additive and predictable:
+  - new variants must not break default rendering
+  - default style must work without any `data-*`
+
+### 3) Token usage rules
+
+1. Use only existing design tokens (`--color-*`, `--space-*`, `--radius-*`, `--motion-*`, `--font-*`).
+2. Do not hard-code new colors, shadows, or fonts in component CSS.
+3. Prefer semantic aliases already used by other components (e.g. `--color-surface-overlay`, `--space-3`, `--radius-md`).
+
+### 4) Accessibility rules
+
+1. Preserve visible focus styles (`:focus-visible`) and keyboard usability.
+2. For status/feedback components, include role guidance (`role="status"` or `role="alert"`) in docs/examples.
+3. Ensure icon-only controls can carry accessible labels in example markup.
+
+### 5) Responsive / mobile-first rules
+
+1. Base styles target mobile first.
+2. Add enhancements using `@media (min-width: …)` only when needed.
+3. Avoid fixed widths unless component semantics require them.
+
+### 6) Required delivery checklist
+
+For every new component, include all of the following:
+
+1. CSS file in `css/components/{name}.css`
+2. Import line in `css/components.css`
+3. API docs in this file (`Component API` section):
+  - supported `data-*` attributes
+  - minimal HTML structure
+  - one default example + one variant example
+4. At least one usage example in `index.html` or `walkthrough.html`
+
+### 7) Change safety rules
+
+1. Do not rename existing public classes/attributes unless explicitly requested.
+2. Do not reorder unrelated imports in `css/main.css`.
+3. Keep diffs minimal and local to the requested component.
+4. Validate no errors after edits.
+
+### 8) Starter template for new components
+
+```css
+/* css/components/{name}.css */
+.c-{name} {
+  --{name}-bg: var(--color-surface-default);
+  --{name}-color: var(--color-text-primary);
+  --{name}-radius: var(--radius-md);
+  --{name}-pad-x: var(--space-3);
+  --{name}-pad-y: var(--space-2);
+
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-block: var(--{name}-pad-y);
+  padding-inline: var(--{name}-pad-x);
+  color: var(--{name}-color);
+  background: var(--{name}-bg);
+  border: var(--border-width-thin) solid var(--color-border-subtle);
+  border-radius: var(--{name}-radius);
+}
+
+.c-{name}[data-variant="subtle"] {
+  --{name}-bg: var(--color-surface-overlay);
+}
+```
+
+```html
+<div class="c-{name}">Default</div>
+<div class="c-{name}" data-variant="subtle">Subtle</div>
+```
+
 ---
 
 ## Theme Config Variables (`css/theme.config.css`)
