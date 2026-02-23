@@ -1,0 +1,75 @@
+/* ── Divider ── */
+.c-divider {
+  --divider-color:   var(--color-border-subtle);
+  --divider-spacing: var(--space-margin-block-lg);
+
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block: var(--divider-spacing);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.c-divider::before,
+.c-divider::after {
+  content: "";
+  flex: 1;
+  height: var(--border-width-thin);
+  background-color: var(--divider-color);
+}
+
+.c-divider:not(:has(*))::after {
+  display: none;
+}
+
+/* ── Spinner ── */
+.c-spinner {
+  --spinner-size:  1.5rem;
+  --spinner-color: var(--color-brand-default);
+  --spinner-track: var(--color-border-default);
+  --spinner-width: 2px;
+
+  display: inline-block;
+  width: var(--spinner-size);
+  height: var(--spinner-size);
+  border: var(--spinner-width) solid var(--spinner-track);
+  border-top-color: var(--spinner-color);
+  border-radius: var(--radius-full);
+  animation: spin var(--motion-duration-slow) linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.c-spinner[data-size="sm"] { --spinner-size: 1rem;   --spinner-width: 2px; }
+.c-spinner[data-size="lg"] { --spinner-size: 2.5rem; --spinner-width: 3px; }
+.c-spinner[data-size="xl"] { --spinner-size: 4rem;   --spinner-width: 4px; }
+
+/* ── Progress ── */
+.c-progress {
+  --progress-track: var(--color-surface-inset);
+  --progress-fill:  var(--color-brand-default);
+  --progress-height: 0.5rem;
+  --progress-radius: var(--radius-full);
+
+  width: 100%;
+  height: var(--progress-height);
+  background-color: var(--progress-track);
+  border-radius: var(--progress-radius);
+  overflow: hidden;
+}
+
+.c-progress__bar {
+  height: 100%;
+  background-color: var(--progress-fill);
+  border-radius: var(--progress-radius);
+  transition: width var(--motion-duration-slow) var(--motion-easing-ease-in-out);
+}
+
+.c-progress[data-status="success"] { --progress-fill: var(--color-success-default); }
+.c-progress[data-status="warning"] { --progress-fill: var(--color-warning-default); }
+.c-progress[data-status="danger"]  { --progress-fill: var(--color-danger-default);  }

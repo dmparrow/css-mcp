@@ -1,0 +1,99 @@
+/* ── Button ── */
+.c-button {
+  --button-bg:          var(--color-brand-default);
+  --button-bg-hover:    var(--color-brand-hover);
+  --button-bg-active:   var(--color-brand-active);
+  --button-color:       var(--color-text-on-brand);
+  --button-border:      transparent;
+  --button-radius:      var(--radius-md);
+  --button-padding-x:   var(--space-4);
+  --button-padding-y:   var(--space-2);
+  --button-font-size:   var(--font-size-sm);
+  --button-font-weight: var(--font-weight-semibold);
+  --button-gap:         var(--space-2);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--button-gap);
+  padding-block: var(--button-padding-y);
+  padding-inline: var(--button-padding-x);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  line-height: var(--line-height-tight);
+  color: var(--button-color);
+  background-color: var(--button-bg);
+  border: var(--border-width-thin) solid var(--button-border);
+  border-radius: var(--button-radius);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  transition:
+    background-color var(--motion-duration-fast) var(--motion-easing-ease-out),
+    color            var(--motion-duration-fast) var(--motion-easing-ease-out),
+    border-color     var(--motion-duration-fast) var(--motion-easing-ease-out),
+    box-shadow       var(--motion-duration-fast) var(--motion-easing-ease-out),
+    transform        var(--motion-duration-fast) var(--motion-easing-ease-out);
+}
+
+.c-button:hover:not(:disabled) {
+  background-color: var(--button-bg-hover);
+}
+
+.c-button:active:not(:disabled) {
+  background-color: var(--button-bg-active);
+  transform: scale(0.98);
+}
+
+.c-button:focus-visible {
+  outline: var(--border-width-medium) solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.c-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.c-button[data-variant="outline"] {
+  --button-bg:        transparent;
+  --button-bg-hover:  var(--color-brand-subtle);
+  --button-bg-active: var(--color-brand-subtle);
+  --button-color:     var(--color-brand-default);
+  --button-border:    var(--color-brand-default);
+}
+
+.c-button[data-variant="ghost"] {
+  --button-bg:        transparent;
+  --button-bg-hover:  var(--color-surface-overlay);
+  --button-bg-active: var(--color-surface-inset);
+  --button-color:     var(--color-text-primary);
+  --button-border:    transparent;
+}
+
+.c-button[data-variant="danger"] {
+  --button-bg:        var(--color-danger-default);
+  --button-bg-hover:  #c92a2a;
+  --button-bg-active: #b02525;
+  --button-color:     var(--color-text-inverse);
+  --button-border:    transparent;
+}
+
+.c-button[data-size="sm"] {
+  --button-padding-x: var(--space-3);
+  --button-padding-y: var(--space-1);
+  --button-font-size: var(--font-size-xs);
+}
+
+.c-button[data-size="lg"] {
+  --button-padding-x: var(--space-6);
+  --button-padding-y: var(--space-3);
+  --button-font-size: var(--font-size-md);
+}
+
+.c-button[data-size="xl"] {
+  --button-padding-x: var(--space-8);
+  --button-padding-y: var(--space-4);
+  --button-font-size: var(--font-size-lg);
+}

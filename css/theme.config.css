@@ -72,6 +72,6 @@
    * 200ms → default
    * 350ms → deliberate / calm
    * ──────────────────────────────────────────────────────────────────────── */
-  --cfg-motion-speed:    180ms;
+  --cfg-motion-speed:    1000ms;
 
 }

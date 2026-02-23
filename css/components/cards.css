@@ -1,0 +1,40 @@
+/* ── Card ── */
+.c-card {
+  --card-padding: var(--space-6);
+  --card-radius:  var(--radius-lg);
+  --card-shadow:  var(--shadow-sm);
+  --card-bg:      var(--color-surface-default);
+  --card-border:  var(--color-border-subtle);
+
+  display: flex;
+  flex-direction: column;
+  background-color: var(--card-bg);
+  border: var(--border-width-thin) solid var(--card-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+}
+
+.c-card__header,
+.c-card__body,
+.c-card__footer {
+  padding: var(--card-padding);
+}
+
+.c-card__header {
+  border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
+  font-weight: var(--font-weight-semibold);
+}
+
+.c-card__footer {
+  border-top: var(--border-width-thin) solid var(--color-border-subtle);
+  background-color: var(--color-surface-raised);
+  margin-top: auto;
+}
+
+.c-card[data-variant="elevated"] { --card-shadow: var(--shadow-md); }
+.c-card[data-variant="flat"]     { --card-shadow: var(--shadow-none); }
+.c-card[data-variant="outlined"] {
+  --card-shadow: var(--shadow-none);
+  --card-border: var(--color-border-default);
+}
