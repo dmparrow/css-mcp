@@ -359,9 +359,18 @@
           </svg>
           <span class="u-font-bold u-color-primary">Arrow Stack Themer</span>
         </a>
-        <nav class="c-nav" aria-label="Main navigation">
+        <nav class="c-nav u-bg-subtle u-rounded-full u-px-2 u-py-2" aria-label="Main navigation">
           <a class="c-nav__link" href="index.html">Components</a>
           <a class="c-nav__link" aria-current="page" data-active href="walkthrough.html">Walkthrough</a>
+          <label for="theme-preset-select" class="u-visually-hidden">Theme preset</label>
+          <select id="theme-preset-select" class="u-bg-brand-subtle u-border-subtle u-rounded-md u-px-2 u-py-2 u-text-sm u-color-primary" aria-label="Theme preset">
+            <option value="ocean-teal">Ocean Teal</option>
+            <option value="warm-sunset">Warm Sunset</option>
+            <option value="mono-neutral">Mono Neutral</option>
+            <option value="airy-serif">Airy Serif</option>
+            <option value="compact-ui">Compact UI</option>
+            <option value="midnight-calm">Midnight Calm</option>
+          </select>
         </nav>
         <button class="c-button" data-variant="ghost" data-size="sm" onclick="toggleTheme()" aria-label="Toggle dark mode">
           <span id="theme-icon">🌙</span> <span id="theme-label">Dark</span>
@@ -995,25 +1004,202 @@ data-variant="<span class="wt-val">outline</span>"
   </div><!-- /wt-shell -->
 
   <script>
+    const THEME_PRESETS = {
+      'ocean-teal': {
+        '--cfg-brand': '#0ea5a4',
+        '--cfg-brand-hover': '#0b8f8e',
+        '--cfg-brand-active': '#0a7a79',
+        '--cfg-brand-subtle': '#e6fffb',
+        '--cfg-brand-on': '#ffffff',
+        '--cfg-success': '#2f9e44',
+        '--cfg-success-subtle': '#ebfbee',
+        '--cfg-warning': '#d97706',
+        '--cfg-warning-subtle': '#fff7e6',
+        '--cfg-danger': '#dc2626',
+        '--cfg-danger-subtle': '#fff1f2',
+        '--cfg-info': '#2563eb',
+        '--cfg-info-subtle': '#eff6ff',
+        '--cfg-radius': '0.75rem',
+        '--cfg-font-sans': '"Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+        '--cfg-font-mono': '"JetBrains Mono", ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace',
+        '--cfg-space-unit': '0.25rem',
+        '--cfg-motion-speed': '180ms',
+      },
+      'warm-sunset': {
+        '--cfg-brand': '#c2410c',
+        '--cfg-brand-hover': '#9a3412',
+        '--cfg-brand-active': '#7c2d12',
+        '--cfg-brand-subtle': '#ffedd5',
+        '--cfg-brand-on': '#ffffff',
+        '--cfg-success': '#3f8f3f',
+        '--cfg-success-subtle': '#edf7ed',
+        '--cfg-warning': '#ca8a04',
+        '--cfg-warning-subtle': '#fef9c3',
+        '--cfg-danger': '#b91c1c',
+        '--cfg-danger-subtle': '#fee2e2',
+        '--cfg-info': '#0369a1',
+        '--cfg-info-subtle': '#e0f2fe',
+        '--cfg-radius': '0.6rem',
+        '--cfg-font-sans': '"Inter", system-ui, sans-serif',
+        '--cfg-font-mono': '"JetBrains Mono", ui-monospace, monospace',
+        '--cfg-space-unit': '0.25rem',
+        '--cfg-motion-speed': '180ms',
+      },
+      'mono-neutral': {
+        '--cfg-brand': '#4b5563',
+        '--cfg-brand-hover': '#374151',
+        '--cfg-brand-active': '#1f2937',
+        '--cfg-brand-subtle': '#f3f4f6',
+        '--cfg-brand-on': '#ffffff',
+        '--cfg-success': '#3f3f46',
+        '--cfg-success-subtle': '#f4f4f5',
+        '--cfg-warning': '#52525b',
+        '--cfg-warning-subtle': '#f4f4f5',
+        '--cfg-danger': '#27272a',
+        '--cfg-danger-subtle': '#f5f5f5',
+        '--cfg-info': '#52525b',
+        '--cfg-info-subtle': '#f4f4f5',
+        '--cfg-radius': '0.35rem',
+        '--cfg-font-sans': '"IBM Plex Sans", system-ui, sans-serif',
+        '--cfg-font-mono': '"IBM Plex Mono", ui-monospace, monospace',
+        '--cfg-space-unit': '0.24rem',
+        '--cfg-motion-speed': '140ms',
+      },
+      'airy-serif': {
+        '--cfg-brand': '#6d28d9',
+        '--cfg-brand-hover': '#5b21b6',
+        '--cfg-brand-active': '#4c1d95',
+        '--cfg-brand-subtle': '#f3e8ff',
+        '--cfg-brand-on': '#ffffff',
+        '--cfg-success': '#2b8a3e',
+        '--cfg-success-subtle': '#ebfbee',
+        '--cfg-warning': '#c17a00',
+        '--cfg-warning-subtle': '#fff4d6',
+        '--cfg-danger': '#c92a2a',
+        '--cfg-danger-subtle': '#fff5f5',
+        '--cfg-info': '#1864ab',
+        '--cfg-info-subtle': '#e7f5ff',
+        '--cfg-radius': '0.9rem',
+        '--cfg-font-sans': '"Source Serif 4", Georgia, Cambria, "Times New Roman", serif',
+        '--cfg-font-mono': '"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
+        '--cfg-space-unit': '0.3125rem',
+        '--cfg-motion-speed': '220ms',
+      },
+      'compact-ui': {
+        '--cfg-brand': '#0f766e',
+        '--cfg-brand-hover': '#0d5f59',
+        '--cfg-brand-active': '#0a4f4a',
+        '--cfg-brand-subtle': '#ddfbf7',
+        '--cfg-brand-on': '#ffffff',
+        '--cfg-success': '#2f9e44',
+        '--cfg-success-subtle': '#ebfbee',
+        '--cfg-warning': '#d06b00',
+        '--cfg-warning-subtle': '#fff4d6',
+        '--cfg-danger': '#d6336c',
+        '--cfg-danger-subtle': '#fff0f6',
+        '--cfg-info': '#1c7ed6',
+        '--cfg-info-subtle': '#e7f5ff',
+        '--cfg-radius': '0.4rem',
+        '--cfg-font-sans': '"Inter Tight", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+        '--cfg-font-mono': '"JetBrains Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace',
+        '--cfg-space-unit': '0.1875rem',
+        '--cfg-motion-speed': '120ms',
+      },
+      'midnight-calm': {
+        '--cfg-brand': '#4f46e5',
+        '--cfg-brand-hover': '#4338ca',
+        '--cfg-brand-active': '#3730a3',
+        '--cfg-brand-subtle': '#e0e7ff',
+        '--cfg-brand-on': '#ffffff',
+        '--cfg-success': '#2b8a3e',
+        '--cfg-success-subtle': '#ebfbee',
+        '--cfg-warning': '#a16207',
+        '--cfg-warning-subtle': '#fef9c3',
+        '--cfg-danger': '#be123c',
+        '--cfg-danger-subtle': '#ffe4e6',
+        '--cfg-info': '#1d4ed8',
+        '--cfg-info-subtle': '#dbeafe',
+        '--cfg-radius': '0.65rem',
+        '--cfg-font-sans': '"Avenir Next", "Segoe UI", "Inter", system-ui, sans-serif',
+        '--cfg-font-mono': '"Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
+        '--cfg-space-unit': '0.2813rem',
+        '--cfg-motion-speed': '200ms',
+      },
+    };
+
     // ── State ──────────────────────────────────────────────────────────────
     const state = {
-      brand:        '#4c6ef5',
-      brandHover:   '#4263eb',
-      brandActive:  '#3b5bdb',
-      brandSubtle:  '#dbe4ff',
+      brand:        '#0ea5a4',
+      brandHover:   '#0b8f8e',
+      brandActive:  '#0a7a79',
+      brandSubtle:  '#e6fffb',
       brandOn:      '#ffffff',
       success:      '#2f9e44',
       successSubtle:'#ebfbee',
-      warning:      '#f08c00',
-      warningSubtle:'#fff9db',
-      danger:       '#e03131',
-      dangerSubtle: '#fff5f5',
-      info:         '#1098ad',
-      infoSubtle:   '#e3fafc',
-      radius:       '0.5rem',
+      warning:      '#d97706',
+      warningSubtle:'#fff7e6',
+      danger:       '#dc2626',
+      dangerSubtle: '#fff1f2',
+      info:         '#2563eb',
+      infoSubtle:   '#eff6ff',
+      radius:       '0.75rem',
       spaceUnit:    '0.25rem',
-      motionSpeed:  '200ms',
+      motionSpeed:  '180ms',
     };
+
+    function applyThemePreset(name) {
+      const presetName = THEME_PRESETS[name] ? name : 'ocean-teal';
+      const preset = THEME_PRESETS[presetName];
+      Object.entries(preset).forEach(([token, value]) => {
+        setVar(token, value);
+      });
+
+      state.brand = preset['--cfg-brand'];
+      state.brandHover = preset['--cfg-brand-hover'];
+      state.brandActive = preset['--cfg-brand-active'];
+      state.brandSubtle = preset['--cfg-brand-subtle'];
+      state.brandOn = preset['--cfg-brand-on'];
+      state.success = preset['--cfg-success'];
+      state.successSubtle = preset['--cfg-success-subtle'];
+      state.warning = preset['--cfg-warning'];
+      state.warningSubtle = preset['--cfg-warning-subtle'];
+      state.danger = preset['--cfg-danger'];
+      state.dangerSubtle = preset['--cfg-danger-subtle'];
+      state.info = preset['--cfg-info'];
+      state.infoSubtle = preset['--cfg-info-subtle'];
+      state.radius = preset['--cfg-radius'];
+      state.spaceUnit = preset['--cfg-space-unit'];
+      state.motionSpeed = preset['--cfg-motion-speed'];
+
+      const brandPicker = document.getElementById('pick-brand');
+      const subtlePicker = document.getElementById('pick-subtle');
+      const onPicker = document.getElementById('pick-on');
+      if (brandPicker) brandPicker.value = state.brand;
+      if (subtlePicker) subtlePicker.value = state.brandSubtle;
+      if (onPicker) onPicker.value = state.brandOn;
+
+      const radiusControl = document.getElementById('radius-range');
+      const spacingControl = document.getElementById('space-range');
+      const motionControl = document.getElementById('motion-range');
+      if (radiusControl) radiusControl.value = Math.round(parseFloat(state.radius) * 16);
+      if (spacingControl) spacingControl.value = (parseFloat(state.spaceUnit) / 0.0625).toFixed(1);
+      if (motionControl) motionControl.value = parseInt(state.motionSpeed, 10);
+
+      document.getElementById('val-brand').textContent = state.brand;
+      document.getElementById('val-subtle').textContent = state.brandSubtle;
+      document.getElementById('val-on').textContent = state.brandOn;
+      document.getElementById('val-radius').textContent = state.radius;
+      document.getElementById('val-space').textContent = state.spaceUnit;
+      document.getElementById('val-motion').textContent = state.motionSpeed;
+
+      const dmLight = document.getElementById('dm-brand-light');
+      const dmDark = document.getElementById('dm-brand-dark');
+      if (dmLight) dmLight.style.background = state.brand;
+      if (dmDark) dmDark.style.background = state.brand;
+
+      localStorage.setItem('ast:theme-preset', presetName);
+      updateGenerated();
+    }
 
     // ── Utilities ──────────────────────────────────────────────────────────
     function setVar(name, value) {
@@ -1223,6 +1409,15 @@ data-variant="<span class="wt-val">outline</span>"
     steps.forEach(s => observer.observe(s));
 
     // ── Init ──────────────────────────────────────────────────────────────
+    const presetSelect = document.getElementById('theme-preset-select');
+    const savedPreset = localStorage.getItem('ast:theme-preset') || 'ocean-teal';
+    if (presetSelect) {
+      presetSelect.value = savedPreset;
+      presetSelect.addEventListener('change', event => {
+        applyThemePreset(event.target.value);
+      });
+    }
+    applyThemePreset(savedPreset);
     updateGenerated();
   </script>
 

@@ -18,10 +18,10 @@
    *          badges (brand), progress bars, input focus borders.
    * Tip: keep hover darker than default, active darker than hover.
    * ──────────────────────────────────────────────────────────────────────── */
-  --cfg-brand:          #4c6ef5;   /* primary brand colour                  */
-  --cfg-brand-hover:    #4263eb;   /* on :hover  (typically 1 shade darker) */
-  --cfg-brand-active:   #3b5bdb;   /* on :active (typically 2 shades darker)*/
-  --cfg-brand-subtle:   #dbe4ff;   /* light tint used for backgrounds       */
+  --cfg-brand:          #0ea5a4;   /* primary brand colour                  */
+  --cfg-brand-hover:    #0b8f8e;   /* on :hover  (typically 1 shade darker) */
+  --cfg-brand-active:   #0a7a79;   /* on :active (typically 2 shades darker)*/
+  --cfg-brand-subtle:   #e6fffb;   /* light tint used for backgrounds       */
   --cfg-brand-on:       #ffffff;   /* text colour ON a brand-coloured surface*/
 
   /* ── 2. STATUS COLOURS ────────────────────────────────────────────────────
@@ -30,12 +30,12 @@
    * ──────────────────────────────────────────────────────────────────────── */
   --cfg-success:         #2f9e44;  /* strong green  */
   --cfg-success-subtle:  #ebfbee;  /* pale green bg */
-  --cfg-warning:         #f08c00;  /* strong amber  */
-  --cfg-warning-subtle:  #fff9db;  /* pale amber bg */
-  --cfg-danger:          #e03131;  /* strong red    */
-  --cfg-danger-subtle:   #fff5f5;  /* pale red bg   */
-  --cfg-info:            #1098ad;  /* strong teal   */
-  --cfg-info-subtle:     #e3fafc;  /* pale teal bg  */
+  --cfg-warning:         #d97706;  /* strong amber  */
+  --cfg-warning-subtle:  #fff7e6;  /* pale amber bg */
+  --cfg-danger:          #dc2626;  /* strong red    */
+  --cfg-danger-subtle:   #fff1f2;  /* pale red bg   */
+  --cfg-info:            #2563eb;  /* strong teal   */
+  --cfg-info-subtle:     #eff6ff;  /* pale teal bg  */
 
   /* ── 3. SHAPE ─────────────────────────────────────────────────────────────
    * Affects: ALL component corner radii (buttons, cards, inputs, badges…).
@@ -45,16 +45,16 @@
    * 1rem     → very round
    * Smaller radii (sm) are halved; larger ones (lg, xl, 2xl) are scaled up.
    * ──────────────────────────────────────────────────────────────────────── */
-  --cfg-radius:          0.5rem;
+  --cfg-radius:          0.75rem;
 
   /* ── 4. TYPOGRAPHY ────────────────────────────────────────────────────────
    * Affects: all text on the site.
    * Use any valid CSS font-family stack.
    * ──────────────────────────────────────────────────────────────────────── */
-  --cfg-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-                   Roboto, Helvetica, Arial, sans-serif;
-  --cfg-font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
-                   Consolas, monospace;
+  --cfg-font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+                   "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --cfg-font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code",
+                   "Source Code Pro", Menlo, Consolas, monospace;
 
   /* ── 5. SPACING DENSITY ───────────────────────────────────────────────────
    * Affects: ALL gaps, padding, and section spacing site-wide.
@@ -72,6 +72,6 @@
    * 200ms → default
    * 350ms → deliberate / calm
    * ──────────────────────────────────────────────────────────────────────── */
-  --cfg-motion-speed:    200ms;
+  --cfg-motion-speed:    180ms;
 
 }
