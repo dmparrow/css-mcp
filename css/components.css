@@ -444,7 +444,7 @@ button.c-tag:hover {
 /* ── Divider ── */
 .c-divider {
   --divider-color:   var(--color-border-subtle);
-  --divider-spacing: var(--space-4);
+  --divider-spacing: var(--space-margin-block-lg);
 
   display: flex;
   align-items: center;
@@ -574,10 +574,31 @@ button.c-tag:hover {
 
 .c-site-header__inner {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-gap-lg);
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: var(--space-gap-sm);
   padding-block: var(--space-3);
+}
+
+.c-site-header__inner > .c-nav {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 900px) {
+  .c-site-header__inner {
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: var(--space-gap-lg);
+  }
+
+  .c-site-header__inner > .c-nav {
+    width: auto;
+    overflow-x: visible;
+  }
 }
 
 .c-site-footer {

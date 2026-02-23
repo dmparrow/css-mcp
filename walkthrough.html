@@ -10,7 +10,8 @@
     /* ── Walkthrough layout ──────────────────────────────── */
     .wt-shell {
       display: flex;
-      align-items: flex-start;
+      flex-direction: column-reverse;
+      align-items: stretch;
       min-height: 100svh;
     }
 
@@ -21,25 +22,30 @@
     }
 
     .wt-canvas {
-      width: 340px;
+      width: 100%;
       flex-shrink: 0;
-      position: sticky;
-      top: calc(var(--space-12) + var(--border-width-thin)); /* 1px accounts for header border-bottom */
-      max-height: calc(100svh - var(--space-12) - var(--space-4));
+      position: static;
+      max-height: none;
       overflow-y: auto;
       padding: var(--space-4);
-      border-left: var(--border-width-thin) solid var(--color-border-subtle);
+      border-left: none;
+      border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
       background-color: var(--color-bg-subtle);
     }
 
-    @media (max-width: 900px) {
-      .wt-shell { flex-direction: column-reverse; }
+    @media (min-width: 901px) {
+      .wt-shell {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+
       .wt-canvas {
-        width: 100%;
-        position: static;
-        max-height: none;
-        border-left: none;
-        border-bottom: var(--border-width-thin) solid var(--color-border-subtle);
+        width: 340px;
+        position: sticky;
+        top: calc(var(--space-12) + var(--border-width-thin)); /* 1px accounts for header border-bottom */
+        max-height: calc(100svh - var(--space-12) - var(--space-4));
+        border-left: var(--border-width-thin) solid var(--color-border-subtle);
+        border-bottom: none;
       }
     }
 
@@ -128,10 +134,10 @@
     /* ── Before/After comparison ─────────────────────────── */
     .wt-compare {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: var(--space-3);
     }
-    @media (max-width: 600px) { .wt-compare { grid-template-columns: 1fr; } }
+    @media (min-width: 601px) { .wt-compare { grid-template-columns: 1fr 1fr; } }
     .wt-compare-pane {
       border-radius: var(--radius-md);
       padding: var(--space-3);
@@ -236,10 +242,10 @@
     /* ── Dark mode demo ──────────────────────────────────── */
     .wt-dm-compare {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: var(--space-3);
     }
-    @media (max-width: 600px) { .wt-dm-compare { grid-template-columns: 1fr; } }
+    @media (min-width: 601px) { .wt-dm-compare { grid-template-columns: 1fr 1fr; } }
     .wt-dm-pane {
       border-radius: var(--radius-lg);
       padding: var(--space-4);
@@ -370,6 +376,8 @@
             <option value="airy-serif">Airy Serif</option>
             <option value="compact-ui">Compact UI</option>
             <option value="midnight-calm">Midnight Calm</option>
+            <option value="spacious-editorial">Spacious Editorial</option>
+            <option value="triple-gradient">Triple Gradient</option>
           </select>
         </nav>
         <button class="c-button" data-variant="ghost" data-size="sm" onclick="toggleTheme()" aria-label="Toggle dark mode">
@@ -623,7 +631,7 @@
               <strong>Why a single <code>--cfg-space-unit</code>?</strong>
               Same reasoning as radius: 13 spacing tokens derived from one base via
               <code>calc(N × --cfg-space-unit)</code>.
-              Drag the slider and watch every gap, padding, and section rhythm
+              Drag the slider and watch every gap, padding, margin, and section rhythm
               compress or expand in proportion — no values drift out of alignment.
               A dense enterprise dashboard vs an airy marketing page differ by exactly
               one token.
@@ -637,8 +645,15 @@
                 <span class="wt-control-value" id="val-space">0.25rem</span>
               </div>
             </div>
+            <div class="u-bg-subtle u-border-subtle u-rounded-md u-p-3 u-mt-4">
+              <p class="u-text-xs u-color-muted u-mb-2">Margin probe</p>
+              <div class="u-bg-brand-subtle u-rounded-sm u-p-2 u-text-sm">Block A</div>
+              <div class="u-bg-brand-subtle u-rounded-sm u-p-2 u-text-sm" style="margin-top:var(--space-4)">
+                Block B (<code>margin-top: var(--space-4)</code>)
+              </div>
+            </div>
             <p class="u-text-xs u-color-muted u-mt-4">
-              ✓ Affects live: all gaps, padding, section vertical rhythm (look at the spacing between these steps changing)
+              ✓ Affects live: all gaps, padding, margins, and section vertical rhythm
             </p>
           </div>
 
@@ -1125,7 +1140,62 @@ data-variant="<span class="wt-val">outline</span>"
         '--cfg-space-unit': '0.2813rem',
         '--cfg-motion-speed': '200ms',
       },
+      'spacious-editorial': {
+        '--cfg-brand': '#7c3aed',
+        '--cfg-brand-hover': '#6d28d9',
+        '--cfg-brand-active': '#5b21b6',
+        '--cfg-brand-subtle': '#f3e8ff',
+        '--cfg-brand-on': '#ffffff',
+        '--cfg-success': '#2b8a3e',
+        '--cfg-success-subtle': '#ebfbee',
+        '--cfg-warning': '#b7791f',
+        '--cfg-warning-subtle': '#fff3bf',
+        '--cfg-danger': '#c2255c',
+        '--cfg-danger-subtle': '#fff0f6',
+        '--cfg-info': '#1c7ed6',
+        '--cfg-info-subtle': '#e7f5ff',
+        '--cfg-radius': '0.95rem',
+        '--cfg-font-sans': '"Merriweather", Georgia, Cambria, "Times New Roman", serif',
+        '--cfg-font-mono': '"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
+        '--cfg-space-unit': '0.35rem',
+        '--cfg-motion-speed': '240ms',
+      },
+      'triple-gradient': {
+        '--cfg-brand': '#7c3aed',
+        '--cfg-brand-hover': '#6d28d9',
+        '--cfg-brand-active': '#5b21b6',
+        '--cfg-brand-subtle': '#f3e8ff',
+        '--cfg-brand-on': '#ffffff',
+        '--cfg-success': '#2f9e44',
+        '--cfg-success-subtle': '#ebfbee',
+        '--cfg-warning': '#ca8a04',
+        '--cfg-warning-subtle': '#fef9c3',
+        '--cfg-danger': '#be123c',
+        '--cfg-danger-subtle': '#ffe4e6',
+        '--cfg-info': '#1d4ed8',
+        '--cfg-info-subtle': '#dbeafe',
+        '--cfg-radius': '0.85rem',
+        '--cfg-font-sans': '"Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+        '--cfg-font-mono': '"JetBrains Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace',
+        '--cfg-space-unit': '0.3rem',
+        '--cfg-motion-speed': '180ms',
+      },
     };
+
+    function applyThemeDecor(presetName) {
+      const isGradientTheme = presetName === 'triple-gradient';
+      const nav = document.querySelector('header .c-nav[aria-label="Main navigation"]');
+      const presetSelect = document.getElementById('theme-preset-select');
+      const navGradient = 'linear-gradient(135deg, #fff4e6 0%, #efe7ff 50%, #e6fcf5 100%)';
+
+      if (nav) {
+        nav.style.backgroundImage = isGradientTheme ? navGradient : '';
+      }
+
+      if (presetSelect) {
+        presetSelect.style.backgroundImage = isGradientTheme ? navGradient : '';
+      }
+    }
 
     // ── State ──────────────────────────────────────────────────────────────
     const state = {
@@ -1197,6 +1267,7 @@ data-variant="<span class="wt-val">outline</span>"
       if (dmLight) dmLight.style.background = state.brand;
       if (dmDark) dmDark.style.background = state.brand;
 
+      applyThemeDecor(presetName);
       localStorage.setItem('ast:theme-preset', presetName);
       updateGenerated();
     }
@@ -1262,6 +1333,7 @@ data-variant="<span class="wt-val">outline</span>"
     function setSpacing(tenths) {
       // Slider range: min=2, max=5, step=0.5. Maps to 0.125rem → 0.3125rem.
       // Formula: tenths × 0.0625 = rem value (e.g. 4 × 0.0625 = 0.25rem default)
+      // This drives spacing tokens used by gap, padding, and margin utilities.
       const val = (parseFloat(tenths) * 0.0625).toFixed(4);
       const display = parseFloat(val).toString() + 'rem';
       state.spaceUnit = display;
@@ -1380,7 +1452,7 @@ data-variant="<span class="wt-val">outline</span>"
         line('--cfg-danger-subtle',  '#fff5f5', '') +
         line('--cfg-info',           '#1098ad', '') +
         line('--cfg-info-subtle',    '#e3fafc', '') +
-        `\n  <span class="gc-comment">/* Shape · Density · Motion */</span>\n` +
+        `\n  <span class="gc-comment">/* Shape · Density (gap/padding/margin) · Motion */</span>\n` +
         line('--cfg-radius',       document.getElementById('val-radius').textContent, '') +
         line('--cfg-space-unit',   document.getElementById('val-space').textContent, '') +
         line('--cfg-motion-speed', document.getElementById('val-motion').textContent, '') +

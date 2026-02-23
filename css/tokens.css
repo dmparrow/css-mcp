@@ -77,9 +77,11 @@
   --space-8:  calc(8  * var(--cfg-space-unit));   /* 32px */
   --space-10: calc(10 * var(--cfg-space-unit));   /* 40px */
   --space-12: calc(12 * var(--cfg-space-unit));   /* 48px */
+  --space-14: calc(14 * var(--cfg-space-unit));   /* 56px */
   --space-16: calc(16 * var(--cfg-space-unit));   /* 64px */
   --space-20: calc(20 * var(--cfg-space-unit));   /* 80px */
   --space-24: calc(24 * var(--cfg-space-unit));   /* 96px */
+  --space-28: calc(28 * var(--cfg-space-unit));   /* 112px */
   --space-32: calc(32 * var(--cfg-space-unit));   /* 128px*/
 
   /* Semantic spacing aliases */
@@ -95,10 +97,15 @@
   --space-padding-lg:  var(--space-6);
   --space-padding-xl:  var(--space-8);
 
-  --space-section-sm:  var(--space-8);
-  --space-section-md:  var(--space-12);
-  --space-section-lg:  var(--space-16);
-  --space-section-xl:  var(--space-24);
+  --space-section-sm:  var(--space-10);
+  --space-section-md:  var(--space-14);
+  --space-section-lg:  var(--space-20);
+  --space-section-xl:  var(--space-28);
+
+  --space-margin-block-sm: var(--space-3);
+  --space-margin-block-md: var(--space-4);
+  --space-margin-block-lg: var(--space-6);
+  --space-margin-block-xl: var(--space-8);
 
   /* ── Typography – font families from --cfg-font-* ── */
   --font-family-sans: var(--cfg-font-sans);
