@@ -4,17 +4,21 @@
  * Entry point – imports all CSS layers in the correct cascade order.
  *
  * Layer order (lowest → highest specificity):
- *   1. tokens    – Design tokens (CSS custom properties)
- *   2. base      – CSS reset + base element styles
- *   3. themes    – Theme overrides (light / dark)
- *   4. layout    – Layout primitives
- *   5. components– UI components
- *   6. utilities – Utility overrides (highest priority)
+ *   1. config     – Agent write surface (theme.config.css)
+ *   2. tokens     – Derived implementation tokens
+ *   3. base       – CSS reset + base element styles
+ *   4. themes     – Light / dark surface overrides
+ *   5. layout     – Layout primitives
+ *   6. components – UI components
+ *   7. utilities  – Single-purpose override helpers
+ *
+ * To theme the site: edit css/theme.config.css only.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-@layer tokens, base, themes, layout, components, utilities;
+@layer config, tokens, base, themes, layout, components, utilities;
 
+@import url("theme.config.css")      layer(config);
 @import url("tokens.css")            layer(tokens);
 @import url("base.css")              layer(base);
 @import url("themes/light.css")      layer(themes);
@@ -22,3 +26,4 @@
 @import url("layout.css")            layer(layout);
 @import url("components.css")        layer(components);
 @import url("utilities.css")         layer(utilities);
+

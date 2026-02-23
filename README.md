@@ -15,16 +15,18 @@ Arrow Stack Themer provides a layered CSS system where every value flows from a 
 ```
 /
 ├── index.html            # Demo page showcasing all tokens, layout & components
+├── AGENT_API.md          # Compact agent reference (config + components + recipes)
 └── css/
     ├── main.css          # Entry point – imports all layers in order
-    ├── tokens.css        # Design tokens (CSS custom properties)
+    ├── theme.config.css  # AGENT WRITE SURFACE – 19 variables, edit this to theme
+    ├── tokens.css        # Implementation tokens (derived from theme.config.css)
     ├── base.css          # CSS reset + base element styles
     ├── layout.css        # Semantic layout primitives
     ├── components.css    # Reusable UI components
     ├── utilities.css     # Single-purpose utility classes
     └── themes/
-        ├── light.css     # Light theme token overrides
-        └── dark.css      # Dark theme token overrides
+        ├── light.css     # Light theme surface/text/border overrides
+        └── dark.css      # Dark theme surface/text/border overrides
 ```
 
 ---
@@ -143,10 +145,26 @@ To create a custom theme, copy `css/themes/light.css` and override only the sema
 
 ## Agentic Workflow Integration
 
-The semantic token and `data-*` attribute API makes this system easy for LLM agents to operate:
+See **[AGENT_API.md](AGENT_API.md)** for the compact agent reference — config table, component attribute tables, and copy-paste recipes. Designed to fit in a single LLM context window.
 
-- **Re-theme**: set CSS custom property values on `:root`
-- **Change variant**: set `data-variant="danger"` on a component
-- **Change layout**: set `data-gap`, `data-min`, `data-side` on layout primitives
-- **Change status**: set `data-status="warning"` on alerts, badges, and progress bars
-- **No class-name juggling** — one authoritative `data-*` attribute per concern
+### Agent write surface
+
+| What to change | Where to edit |
+|---|---|
+| Colours, fonts, shape, spacing, motion | `css/theme.config.css` **only** |
+| Component variant / state | `data-*` attribute on the HTML element |
+| Layout behaviour | `data-*` attribute on the layout element |
+| Dark / light mode | `data-theme="dark"` on `<html>` or any container |
+
+### How it works
+
+```
+css/theme.config.css   ← 19 variables, the ONLY agent write surface
+       ↓ var() / calc()
+css/tokens.css         ← all implementation tokens derived from config
+       ↓ consumed by
+base · themes · layout · components · utilities   ← read-only infrastructure
+```
+
+Every component and layout token derives from `theme.config.css` via `var()` or `calc()`.
+Changing one config variable propagates to every affected component automatically — no hunting across multiple files.

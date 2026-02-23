@@ -147,31 +147,31 @@
 .c-badge[data-status="success"] {
   --badge-bg:     var(--color-success-subtle);
   --badge-color:  var(--color-success-default);
-  --badge-border: var(--palette-success-400);
+  --badge-border: var(--color-success-default);
 }
 
 .c-badge[data-status="warning"] {
   --badge-bg:     var(--color-warning-subtle);
   --badge-color:  var(--color-warning-default);
-  --badge-border: var(--palette-warning-400);
+  --badge-border: var(--color-warning-default);
 }
 
 .c-badge[data-status="danger"] {
   --badge-bg:     var(--color-danger-subtle);
   --badge-color:  var(--color-danger-default);
-  --badge-border: var(--palette-danger-400);
+  --badge-border: var(--color-danger-default);
 }
 
 .c-badge[data-status="info"] {
   --badge-bg:     var(--color-info-subtle);
   --badge-color:  var(--color-info-default);
-  --badge-border: var(--palette-info-400);
+  --badge-border: var(--color-info-default);
 }
 
 .c-badge[data-status="brand"] {
   --badge-bg:     var(--color-brand-subtle);
   --badge-color:  var(--color-brand-emphasis);
-  --badge-border: var(--palette-brand-300);
+  --badge-border: var(--color-brand-default);
 }
 
 /* ── Card ── */
@@ -353,25 +353,25 @@
 
 .c-alert[data-status="success"] {
   --alert-bg:     var(--color-success-subtle);
-  --alert-border: var(--palette-success-400);
+  --alert-border: var(--color-success-default);
   --alert-accent: var(--color-success-default);
 }
 
 .c-alert[data-status="warning"] {
   --alert-bg:     var(--color-warning-subtle);
-  --alert-border: var(--palette-warning-400);
+  --alert-border: var(--color-warning-default);
   --alert-accent: var(--color-warning-default);
 }
 
 .c-alert[data-status="danger"] {
   --alert-bg:     var(--color-danger-subtle);
-  --alert-border: var(--palette-danger-400);
+  --alert-border: var(--color-danger-default);
   --alert-accent: var(--color-danger-default);
 }
 
 .c-alert[data-status="info"] {
   --alert-bg:     var(--color-info-subtle);
-  --alert-border: var(--palette-info-400);
+  --alert-border: var(--color-info-default);
   --alert-accent: var(--color-info-default);
 }
 
