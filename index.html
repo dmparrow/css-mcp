@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Arrow Stack Themer – semantic CSS structure for agentic workflows" />
+  <title>Arrow Stack Themer</title>
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+
+<body>
+
+  <!-- ── Site Header ── -->
+  <header class="c-site-header" role="banner">
+    <div class="l-wrapper">
+      <div class="c-site-header__inner">
+
+        <a href="#" class="u-flex u-items-center u-gap-2 u-color-brand" style="text-decoration:none;">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <rect width="28" height="28" rx="8" fill="currentColor"/>
+            <path d="M8 20L14 8L20 20M10.5 16h7" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="u-font-bold u-text-lg u-color-primary">Arrow</span>
+          <span class="u-font-medium u-text-sm u-color-muted">Stack Themer</span>
+        </a>
+
+        <nav class="c-nav" aria-label="Main navigation">
+          <a class="c-nav__link" href="#tokens">Tokens</a>
+          <a class="c-nav__link" href="#layout">Layout</a>
+          <a class="c-nav__link" href="#components">Components</a>
+          <a class="c-nav__link" href="#themes">Themes</a>
+        </nav>
+
+        <div class="l-cluster">
+          <button
+            id="theme-toggle"
+            class="c-button"
+            data-variant="ghost"
+            data-size="sm"
+            aria-label="Toggle dark mode"
+            onclick="toggleTheme()"
+          >
+            <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="display:none">
+              <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <span id="theme-label">Dark</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ── Hero ── -->
+    <section class="l-cover l-region" data-min-height="50vh" aria-labelledby="hero-heading">
+      <div class="l-wrapper l-imposter" style="position:relative;inset:unset;transform:none;">
+        <div class="l-stack u-items-center u-text-center" data-gap="lg">
+
+          <div class="l-cluster u-justify-center">
+            <span class="c-badge" data-status="brand">v1.0</span>
+            <span class="c-badge">Semantic CSS</span>
+            <span class="c-badge">Agentic-ready</span>
+          </div>
+
+          <div class="l-stack" data-gap="sm">
+            <h1 id="hero-heading" class="u-text-5xl u-tracking-tight">
+              Arrow Stack Themer
+            </h1>
+            <p class="u-text-xl u-color-muted u-mx-auto" style="max-width:50ch">
+              A semantic CSS architecture for HTML-first site builders and agentic workflows.
+              Design tokens → layout primitives → components → utilities.
+            </p>
+          </div>
+
+          <div class="l-cluster u-justify-center">
+            <a href="#tokens" class="c-button" data-size="lg">Explore Tokens</a>
+            <a href="#components" class="c-button" data-variant="outline" data-size="lg">View Components</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Design Tokens ── -->
+    <section id="tokens" class="l-region" aria-labelledby="tokens-heading">
+      <div class="l-wrapper">
+        <div class="l-stack" data-gap="xl">
+
+          <div class="l-stack" data-gap="sm">
+            <h2 id="tokens-heading">Design Tokens</h2>
+            <p>
+              All values flow from a single source of truth.
+              Tokens are layered: palette → semantic → component.
+              Agents can re-skin the entire system by overriding <code>:root</code> properties.
+            </p>
+          </div>
+
+          <!-- Color tokens -->
+          <div class="l-stack" data-gap="md">
+            <h3>Colour Palette</h3>
+            <div class="l-grid" data-min="sm" data-gap="sm">
+
+              <div class="c-card" data-variant="flat">
+                <div class="c-card__header">Brand</div>
+                <div class="c-card__body l-stack" data-gap="xs">
+                  <div class="l-cluster" data-gap="xs">
+                    <span style="display:inline-block;width:2rem;height:2rem;border-radius:var(--radius-sm);background:var(--palette-brand-100)" title="brand-100"></span>
+                    <span style="display:inline-block;width:2rem;height:2rem;border-radius:var(--radius-sm);background:var(--palette-brand-300)" title="brand-300"></span>
+                    <span style="display:inline-block;width:2rem;height:2rem;border-radius:var(--radius-sm);background:var(--palette-brand-500)" title="brand-500"></span>
+                    <span style="display:inline-block;width:2rem;height:2rem;border-radius:var(--radius-sm);background:var(--palette-brand-700)" title="brand-700"></span>
+                    <span style="display:inline-block;width:2rem;height:2rem;border-radius:var(--radius-sm);background:var(--palette-brand-900)" title="brand-900"></span>
+                  </div>
+                  <code class="u-text-xs">--palette-brand-{100–900}</code>
+                </div>
+              </div>
+
+              <div class="c-card" data-variant="flat">
+                <div class="c-card__header">Neutral</div>
+                <div class="c-card__body l-stack" data-gap="xs">
+                  <div class="l-cluster" data-gap="xs">
+                    <span style="display:inline-block;width:2rem;height:2rem;border-radius:var(--radius-sm);background:var(--palette-neutral-100);border:1px solid var(--color-border-subtle)" title="neutral-100"></span>
+                    <span style="display:inline-block;width:2rem;height:2rem;border-radius:var(--radius-sm);background:var(--palette-neutral-300)" title="neutral-300"></span>
+                    <span style="display:inline-block;width:2rem;height:2rem;border-radius:var(--radius-sm);background:var(--palette-neutral-500)" title="neutral-500"></span>
+                    <span style="display:inline-block;width:2rem;height:2rem;border-radius:var(--radius-sm);background:var(--palette-neutral-700)" title="neutral-700"></span>
+                    <span style="display:inline-block;width:2rem;height:2rem;border-radius:var(--radius-sm);background:var(--palette-neutral-900)" title="neutral-900"></span>
+                  </div>
+                  <code class="u-text-xs">--palette-neutral-{0–950}</code>
+                </div>
+              </div>
+
+              <div class="c-card" data-variant="flat">
+                <div class="c-card__header">Status</div>
+                <div class="c-card__body l-stack" data-gap="xs">
+                  <div class="l-cluster" data-gap="xs">
+                    <span style="display:inline-block;width:2rem;height:2rem;border-radius:var(--radius-sm);background:var(--palette-success-600)" title="success"></span>
+                    <span style="display:inline-block;width:2rem;height:2rem;border-radius:var(--radius-sm);background:var(--palette-warning-600)" title="warning"></span>
+                    <span style="display:inline-block;width:2rem;height:2rem;border-radius:var(--radius-sm);background:var(--palette-danger-600)" title="danger"></span>
+                    <span style="display:inline-block;width:2rem;height:2rem;border-radius:var(--radius-sm);background:var(--palette-info-600)" title="info"></span>
+                  </div>
+                  <code class="u-text-xs">success · warning · danger · info</code>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Spacing tokens -->
+          <div class="l-stack" data-gap="md">
+            <h3>Spacing Scale</h3>
+            <div class="l-cluster" data-gap="xs" data-align="end">
+              <div class="l-stack u-items-center" data-gap="xs">
+                <div style="width:var(--space-2);height:var(--space-2);background:var(--color-brand-default);border-radius:var(--radius-sm)"></div>
+                <code class="u-text-xs">2</code>
+              </div>
+              <div class="l-stack u-items-center" data-gap="xs">
+                <div style="width:var(--space-4);height:var(--space-4);background:var(--color-brand-default);border-radius:var(--radius-sm)"></div>
+                <code class="u-text-xs">4</code>
+              </div>
+              <div class="l-stack u-items-center" data-gap="xs">
+                <div style="width:var(--space-6);height:var(--space-6);background:var(--color-brand-default);border-radius:var(--radius-sm)"></div>
+                <code class="u-text-xs">6</code>
+              </div>
+              <div class="l-stack u-items-center" data-gap="xs">
+                <div style="width:var(--space-8);height:var(--space-8);background:var(--color-brand-default);border-radius:var(--radius-sm)"></div>
+                <code class="u-text-xs">8</code>
+              </div>
+              <div class="l-stack u-items-center" data-gap="xs">
+                <div style="width:var(--space-12);height:var(--space-12);background:var(--color-brand-default);border-radius:var(--radius-sm)"></div>
+                <code class="u-text-xs">12</code>
+              </div>
+              <div class="l-stack u-items-center" data-gap="xs">
+                <div style="width:var(--space-16);height:var(--space-16);background:var(--color-brand-default);border-radius:var(--radius-sm)"></div>
+                <code class="u-text-xs">16</code>
+              </div>
+            </div>
+          </div>
+
+          <!-- Typography -->
+          <div class="l-stack" data-gap="md">
+            <h3>Typography Scale</h3>
+            <div class="c-card" data-variant="outlined">
+              <div class="c-card__body l-stack" data-gap="sm">
+                <p class="u-text-xs u-color-muted">xs – 12px</p>
+                <p class="u-text-sm u-color-muted">sm – 14px</p>
+                <p class="u-text-md">md – 16px (body)</p>
+                <p class="u-text-lg u-font-medium">lg – 18px medium</p>
+                <p class="u-text-xl u-font-semibold">xl – 20px semibold</p>
+                <p class="u-text-2xl u-font-bold">2xl – 24px bold</p>
+                <p class="u-text-3xl u-font-bold">3xl – 30px bold</p>
+                <p class="u-text-4xl u-font-bold u-tracking-tight">4xl – 36px bold</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Layout Primitives ── -->
+    <section id="layout" class="l-region u-bg-subtle" aria-labelledby="layout-heading">
+      <div class="l-wrapper">
+        <div class="l-stack" data-gap="xl">
+
+          <div class="l-stack" data-gap="sm">
+            <h2 id="layout-heading">Layout Primitives</h2>
+            <p>
+              Composable layout components using intrinsic CSS. Each primitive is
+              controlled via <code>data-*</code> attributes and CSS custom properties –
+              no magic breakpoints needed.
+            </p>
+          </div>
+
+          <!-- Grid demo -->
+          <div class="l-stack" data-gap="md">
+            <h3>Auto-Grid (<code>.l-grid</code>)</h3>
+            <div class="l-grid" data-min="sm" data-gap="sm">
+              <div class="u-bg-brand-subtle u-rounded-md u-p-4 u-text-sm u-font-medium u-color-brand">Cell A</div>
+              <div class="u-bg-brand-subtle u-rounded-md u-p-4 u-text-sm u-font-medium u-color-brand">Cell B</div>
+              <div class="u-bg-brand-subtle u-rounded-md u-p-4 u-text-sm u-font-medium u-color-brand">Cell C</div>
+              <div class="u-bg-brand-subtle u-rounded-md u-p-4 u-text-sm u-font-medium u-color-brand">Cell D</div>
+              <div class="u-bg-brand-subtle u-rounded-md u-p-4 u-text-sm u-font-medium u-color-brand">Cell E</div>
+              <div class="u-bg-brand-subtle u-rounded-md u-p-4 u-text-sm u-font-medium u-color-brand">Cell F</div>
+            </div>
+          </div>
+
+          <!-- Sidebar demo -->
+          <div class="l-stack" data-gap="md">
+            <h3>Sidebar (<code>.l-sidebar</code>)</h3>
+            <div class="l-sidebar">
+              <aside data-role="sidebar" class="c-card" style="--sidebar-target-width:14rem">
+                <div class="c-card__header">Sidebar</div>
+                <div class="c-card__body">
+                  <nav class="c-nav" data-orientation="vertical">
+                    <a class="c-nav__link" data-active href="#">Dashboard</a>
+                    <a class="c-nav__link" href="#">Projects</a>
+                    <a class="c-nav__link" href="#">Settings</a>
+                  </nav>
+                </div>
+              </aside>
+              <main data-role="content" class="c-card">
+                <div class="c-card__header">Main Content</div>
+                <div class="c-card__body">
+                  <p>This area grows to fill remaining space. When the viewport is too narrow,
+                     both columns stack vertically.</p>
+                </div>
+              </main>
+            </div>
+          </div>
+
+          <!-- Cluster demo -->
+          <div class="l-stack" data-gap="md">
+            <h3>Cluster (<code>.l-cluster</code>)</h3>
+            <div class="l-cluster">
+              <span class="c-tag">HTML</span>
+              <span class="c-tag">CSS</span>
+              <span class="c-tag">Semantic</span>
+              <span class="c-tag">Design Tokens</span>
+              <span class="c-tag">Agentic</span>
+              <span class="c-tag">Intrinsic Layout</span>
+              <span class="c-tag">Dark Mode</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Components ── -->
+    <section id="components" class="l-region" aria-labelledby="components-heading">
+      <div class="l-wrapper">
+        <div class="l-stack" data-gap="xl">
+
+          <div class="l-stack" data-gap="sm">
+            <h2 id="components-heading">Components</h2>
+            <p>
+              Semantic UI components built on design tokens.
+              Variants and states are expressed through <code>data-*</code> attributes
+              so agents can modify behaviour without touching CSS.
+            </p>
+          </div>
+
+          <!-- Buttons -->
+          <div class="l-stack" data-gap="md">
+            <h3>Buttons</h3>
+            <div class="l-cluster">
+              <button class="c-button">Primary</button>
+              <button class="c-button" data-variant="outline">Outline</button>
+              <button class="c-button" data-variant="ghost">Ghost</button>
+              <button class="c-button" data-variant="danger">Danger</button>
+              <button class="c-button" disabled>Disabled</button>
+            </div>
+            <div class="l-cluster" data-align="center">
+              <button class="c-button" data-size="sm">Small</button>
+              <button class="c-button">Default</button>
+              <button class="c-button" data-size="lg">Large</button>
+              <button class="c-button" data-size="xl">X-Large</button>
+            </div>
+          </div>
+
+          <hr />
+
+          <!-- Badges -->
+          <div class="l-stack" data-gap="md">
+            <h3>Badges</h3>
+            <div class="l-cluster">
+              <span class="c-badge">Default</span>
+              <span class="c-badge" data-status="brand">Brand</span>
+              <span class="c-badge" data-status="success">Success</span>
+              <span class="c-badge" data-status="warning">Warning</span>
+              <span class="c-badge" data-status="danger">Danger</span>
+              <span class="c-badge" data-status="info">Info</span>
+            </div>
+          </div>
+
+          <hr />
+
+          <!-- Alerts -->
+          <div class="l-stack" data-gap="sm">
+            <h3>Alerts</h3>
+
+            <div class="c-alert" role="status">
+              <div class="c-alert__body">
+                <p class="c-alert__title">Information</p>
+                <p class="c-alert__message">This is a default informational alert with supporting copy.</p>
+              </div>
+            </div>
+
+            <div class="c-alert" data-status="success" role="status">
+              <div class="c-alert__body">
+                <p class="c-alert__title">Workflow completed</p>
+                <p class="c-alert__message">The agentic task finished successfully.</p>
+              </div>
+            </div>
+
+            <div class="c-alert" data-status="warning" role="alert">
+              <div class="c-alert__body">
+                <p class="c-alert__title">Attention required</p>
+                <p class="c-alert__message">One agent returned an unexpected result. Review before continuing.</p>
+              </div>
+            </div>
+
+            <div class="c-alert" data-status="danger" role="alert">
+              <div class="c-alert__body">
+                <p class="c-alert__title">Error</p>
+                <p class="c-alert__message">The workflow failed. Check the logs for details.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <hr />
+
+          <!-- Cards -->
+          <div class="l-stack" data-gap="md">
+            <h3>Cards</h3>
+            <div class="l-grid" data-min="md" data-gap="md">
+
+              <article class="c-card">
+                <div class="c-card__header">
+                  <div class="l-cluster u-justify-between">
+                    <span>Default Card</span>
+                    <span class="c-badge" data-status="success">Active</span>
+                  </div>
+                </div>
+                <div class="c-card__body l-stack" data-gap="sm">
+                  <p>This card uses the default shadow and border. Good for primary content surfaces.</p>
+                  <div class="l-cluster">
+                    <span class="c-tag">HTML</span>
+                    <span class="c-tag">CSS</span>
+                  </div>
+                </div>
+                <div class="c-card__footer">
+                  <div class="l-cluster u-justify-end">
+                    <button class="c-button" data-variant="ghost" data-size="sm">Cancel</button>
+                    <button class="c-button" data-size="sm">Save</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="c-card" data-variant="elevated">
+                <div class="c-card__header">Elevated Card</div>
+                <div class="c-card__body l-stack" data-gap="sm">
+                  <p>Elevated cards use a stronger shadow to convey higher importance or interactivity.</p>
+                  <div class="c-progress" aria-label="Progress" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                    <div class="c-progress__bar" style="width:65%"></div>
+                  </div>
+                  <p class="u-text-xs u-color-muted">Task progress: 65%</p>
+                </div>
+              </article>
+
+              <article class="c-card" data-variant="outlined">
+                <div class="c-card__header">
+                  <div class="l-cluster u-items-center">
+                    <div class="c-avatar" data-size="sm">AW</div>
+                    <div class="l-stack" data-gap="xs">
+                      <span class="u-font-semibold u-text-sm">Agent Workflow</span>
+                      <span class="u-text-xs u-color-muted">2 minutes ago</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="c-card__body">
+                  <p>Outlined card for secondary content. The lack of shadow keeps it visually quiet.</p>
+                </div>
+              </article>
+
+            </div>
+          </div>
+
+          <hr />
+
+          <!-- Avatars -->
+          <div class="l-stack" data-gap="md">
+            <h3>Avatars</h3>
+            <div class="l-cluster" data-align="center">
+              <div class="c-avatar" data-size="xs">XS</div>
+              <div class="c-avatar" data-size="sm">SM</div>
+              <div class="c-avatar" data-size="md">MD</div>
+              <div class="c-avatar" data-size="lg">LG</div>
+              <div class="c-avatar" data-size="xl">XL</div>
+              <div class="c-avatar" data-size="md" data-shape="square">SQ</div>
+            </div>
+          </div>
+
+          <hr />
+
+          <!-- Forms -->
+          <div class="l-stack" data-gap="md">
+            <h3>Form Inputs</h3>
+            <div class="l-grid" data-min="md" data-gap="md">
+
+              <div class="c-input">
+                <label class="c-input__label" for="input-default">Workflow name</label>
+                <input class="c-input__field" id="input-default" type="text" placeholder="My agentic workflow" />
+                <span class="c-input__hint">Choose a descriptive name.</span>
+              </div>
+
+              <div class="c-input" data-state="error">
+                <label class="c-input__label" for="input-error">API key</label>
+                <input class="c-input__field" id="input-error" type="text" value="invalid-key" aria-describedby="input-error-msg" />
+                <span class="c-input__error" id="input-error-msg">Invalid API key format.</span>
+              </div>
+
+              <div class="c-input" data-state="success">
+                <label class="c-input__label" for="input-success">Model endpoint</label>
+                <input class="c-input__field" id="input-success" type="url" value="https://api.example.com/v1" />
+                <span class="c-input__hint">Connection verified.</span>
+              </div>
+
+            </div>
+          </div>
+
+          <hr />
+
+          <!-- Progress -->
+          <div class="l-stack" data-gap="md">
+            <h3>Progress</h3>
+            <div class="l-stack" data-gap="sm">
+              <div class="l-cluster u-justify-between">
+                <span class="u-text-sm u-font-medium">Default (40%)</span>
+              </div>
+              <div class="c-progress" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" aria-label="40% complete">
+                <div class="c-progress__bar" style="width:40%"></div>
+              </div>
+
+              <div class="c-progress" data-status="success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Complete">
+                <div class="c-progress__bar" style="width:100%"></div>
+              </div>
+
+              <div class="c-progress" data-status="warning" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-label="60% complete">
+                <div class="c-progress__bar" style="width:60%"></div>
+              </div>
+
+              <div class="c-progress" data-status="danger" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" aria-label="25% complete">
+                <div class="c-progress__bar" style="width:25%"></div>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <!-- Spinners -->
+          <div class="l-stack" data-gap="md">
+            <h3>Spinners</h3>
+            <div class="l-cluster" data-align="center">
+              <div class="c-spinner" data-size="sm" role="status" aria-label="Loading"></div>
+              <div class="c-spinner" role="status" aria-label="Loading"></div>
+              <div class="c-spinner" data-size="lg" role="status" aria-label="Loading"></div>
+              <div class="c-spinner" data-size="xl" role="status" aria-label="Loading"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Themes ── -->
+    <section id="themes" class="l-region u-bg-subtle" aria-labelledby="themes-heading">
+      <div class="l-wrapper">
+        <div class="l-stack" data-gap="xl">
+
+          <div class="l-stack" data-gap="sm">
+            <h2 id="themes-heading">Theming</h2>
+            <p>
+              Themes override only semantic tokens, so every component adapts automatically.
+              Toggle the switch in the header to see the dark theme in action.
+            </p>
+          </div>
+
+          <div class="l-grid" data-min="md" data-gap="md">
+
+            <div class="c-card" data-variant="outlined" style="--card-bg:var(--palette-neutral-0);color:var(--palette-neutral-900)">
+              <div class="c-card__header u-bg-base u-color-primary">☀️ Light Theme</div>
+              <div class="c-card__body l-stack" data-gap="sm">
+                <p class="u-color-secondary">Surface: white. Text: near-black. Borders: light grey.</p>
+                <code class="u-text-xs">data-theme="light"</code>
+              </div>
+            </div>
+
+            <div class="c-card" data-variant="outlined" style="--card-bg:#1a1d20;--card-border:var(--palette-neutral-700);color:var(--palette-neutral-50)">
+              <div class="c-card__header" style="color:var(--palette-neutral-50);background:#212529;border-color:var(--palette-neutral-700)">🌙 Dark Theme</div>
+              <div class="c-card__body l-stack" data-gap="sm">
+                <p style="color:var(--palette-neutral-300)">Surface: dark grey. Text: near-white. Borders: dark grey.</p>
+                <code class="u-text-xs" style="background:var(--palette-neutral-800);border-color:var(--palette-neutral-700);color:var(--palette-neutral-200)">data-theme="dark"</code>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Token table -->
+          <div class="l-stack" data-gap="sm">
+            <h3>Semantic Token Reference</h3>
+            <div class="u-overflow-auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Token</th>
+                    <th>Role</th>
+                    <th>Light</th>
+                    <th>Dark</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>--color-bg-base</code></td><td>Page background</td><td>#ffffff</td><td>#0d0f10</td></tr>
+                  <tr><td><code>--color-text-primary</code></td><td>Main body text</td><td>#212529</td><td>#f8f9fa</td></tr>
+                  <tr><td><code>--color-brand-default</code></td><td>Primary action</td><td>#4c6ef5</td><td>#748ffc</td></tr>
+                  <tr><td><code>--color-border-default</code></td><td>Default border</td><td>#dee2e6</td><td>#495057</td></tr>
+                  <tr><td><code>--color-surface-default</code></td><td>Component surface</td><td>#ffffff</td><td>#1a1d20</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Site Footer ── -->
+  <footer class="c-site-footer l-region" data-padding="sm" role="contentinfo">
+    <div class="l-wrapper">
+      <div class="l-cluster u-justify-between">
+        <p class="u-text-sm u-color-muted" style="max-width:none">
+          Arrow Stack Themer – semantic CSS for agentic workflows.
+        </p>
+        <div class="l-cluster">
+          <span class="c-badge">HTML-first</span>
+          <span class="c-badge">Token-driven</span>
+          <span class="c-badge">Agent-ready</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle – minimal vanilla JS
+    function toggleTheme() {
+      const root = document.documentElement;
+      const current = root.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      document.getElementById('theme-label').textContent = next === 'dark' ? 'Light' : 'Dark';
+      document.getElementById('icon-sun').style.display  = next === 'dark' ? 'block' : 'none';
+      document.getElementById('icon-moon').style.display = next === 'dark' ? 'none'  : 'block';
+    }
+  </script>
+
+</body>
+</html>

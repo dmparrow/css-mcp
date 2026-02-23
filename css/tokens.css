@@ -1,0 +1,214 @@
+/**
+ * tokens.css
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Design tokens expressed as CSS custom properties.
+ * All other layers consume these tokens – never raw values.
+ *
+ * Naming convention:
+ *   --{category}-{role}-{variant?}
+ *
+ * Categories: color, space, size, font, radius, shadow, motion, z
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+:root {
+  /* ── Color palette (raw primitives – prefer semantic aliases below) ── */
+  --palette-neutral-0:   #ffffff;
+  --palette-neutral-50:  #f8f9fa;
+  --palette-neutral-100: #f1f3f5;
+  --palette-neutral-200: #e9ecef;
+  --palette-neutral-300: #dee2e6;
+  --palette-neutral-400: #ced4da;
+  --palette-neutral-500: #adb5bd;
+  --palette-neutral-600: #6c757d;
+  --palette-neutral-700: #495057;
+  --palette-neutral-800: #343a40;
+  --palette-neutral-900: #212529;
+  --palette-neutral-950: #0d0f10;
+
+  --palette-brand-100: #dbe4ff;
+  --palette-brand-200: #bac8ff;
+  --palette-brand-300: #91a7ff;
+  --palette-brand-400: #748ffc;
+  --palette-brand-500: #5c7cfa;
+  --palette-brand-600: #4c6ef5;
+  --palette-brand-700: #4263eb;
+  --palette-brand-800: #3b5bdb;
+  --palette-brand-900: #364fc7;
+
+  --palette-success-400: #69db7c;
+  --palette-success-600: #2f9e44;
+  --palette-warning-400: #ffd43b;
+  --palette-warning-600: #f08c00;
+  --palette-danger-400:  #ff8787;
+  --palette-danger-600:  #e03131;
+  --palette-info-400:    #66d9e8;
+  --palette-info-600:    #1098ad;
+
+  /* ── Semantic color tokens ── */
+  --color-bg-base:        var(--palette-neutral-0);
+  --color-bg-subtle:      var(--palette-neutral-50);
+  --color-bg-muted:       var(--palette-neutral-100);
+  --color-bg-emphasis:    var(--palette-neutral-900);
+
+  --color-surface-default:  var(--palette-neutral-0);
+  --color-surface-raised:   var(--palette-neutral-50);
+  --color-surface-overlay:  var(--palette-neutral-100);
+  --color-surface-inset:    var(--palette-neutral-200);
+
+  --color-border-default: var(--palette-neutral-300);
+  --color-border-subtle:  var(--palette-neutral-200);
+  --color-border-emphasis:var(--palette-neutral-500);
+
+  --color-text-primary:   var(--palette-neutral-900);
+  --color-text-secondary: var(--palette-neutral-700);
+  --color-text-muted:     var(--palette-neutral-600);
+  --color-text-disabled:  var(--palette-neutral-400);
+  --color-text-inverse:   var(--palette-neutral-0);
+  --color-text-on-brand:  var(--palette-neutral-0);
+
+  --color-brand-default:  var(--palette-brand-600);
+  --color-brand-hover:    var(--palette-brand-700);
+  --color-brand-active:   var(--palette-brand-800);
+  --color-brand-subtle:   var(--palette-brand-100);
+  --color-brand-emphasis: var(--palette-brand-900);
+
+  --color-success-default: var(--palette-success-600);
+  --color-success-subtle:  #ebfbee;
+  --color-warning-default: var(--palette-warning-600);
+  --color-warning-subtle:  #fff9db;
+  --color-danger-default:  var(--palette-danger-600);
+  --color-danger-subtle:   #fff5f5;
+  --color-info-default:    var(--palette-info-600);
+  --color-info-subtle:     #e3fafc;
+
+  --color-focus-ring: var(--palette-brand-400);
+
+  /* ── Spacing scale (4-pt base grid) ── */
+  --space-0:   0;
+  --space-1:   0.25rem;   /* 4px  */
+  --space-2:   0.5rem;    /* 8px  */
+  --space-3:   0.75rem;   /* 12px */
+  --space-4:   1rem;      /* 16px */
+  --space-5:   1.25rem;   /* 20px */
+  --space-6:   1.5rem;    /* 24px */
+  --space-8:   2rem;      /* 32px */
+  --space-10:  2.5rem;    /* 40px */
+  --space-12:  3rem;      /* 48px */
+  --space-16:  4rem;      /* 64px */
+  --space-20:  5rem;      /* 80px */
+  --space-24:  6rem;      /* 96px */
+  --space-32:  8rem;      /* 128px */
+
+  /* Semantic spacing aliases */
+  --space-gap-xs:  var(--space-2);
+  --space-gap-sm:  var(--space-3);
+  --space-gap-md:  var(--space-4);
+  --space-gap-lg:  var(--space-6);
+  --space-gap-xl:  var(--space-8);
+
+  --space-padding-xs:  var(--space-2);
+  --space-padding-sm:  var(--space-3);
+  --space-padding-md:  var(--space-4);
+  --space-padding-lg:  var(--space-6);
+  --space-padding-xl:  var(--space-8);
+
+  --space-section-sm:  var(--space-8);
+  --space-section-md:  var(--space-12);
+  --space-section-lg:  var(--space-16);
+  --space-section-xl:  var(--space-24);
+
+  /* ── Typography ── */
+  --font-family-sans:  system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                       Roboto, Helvetica, Arial, sans-serif;
+  --font-family-mono:  ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
+                       Consolas, "DejaVu Sans Mono", monospace;
+
+  --font-size-xs:   0.75rem;    /* 12px */
+  --font-size-sm:   0.875rem;   /* 14px */
+  --font-size-md:   1rem;       /* 16px */
+  --font-size-lg:   1.125rem;   /* 18px */
+  --font-size-xl:   1.25rem;    /* 20px */
+  --font-size-2xl:  1.5rem;     /* 24px */
+  --font-size-3xl:  1.875rem;   /* 30px */
+  --font-size-4xl:  2.25rem;    /* 36px */
+  --font-size-5xl:  3rem;       /* 48px */
+
+  --font-weight-normal:    400;
+  --font-weight-medium:    500;
+  --font-weight-semibold:  600;
+  --font-weight-bold:      700;
+
+  --line-height-tight:   1.25;
+  --line-height-snug:    1.375;
+  --line-height-normal:  1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose:   2;
+
+  --letter-spacing-tight:  -0.025em;
+  --letter-spacing-normal:  0em;
+  --letter-spacing-wide:    0.025em;
+  --letter-spacing-wider:   0.05em;
+  --letter-spacing-widest:  0.1em;
+
+  /* ── Border ── */
+  --border-width-thin:   1px;
+  --border-width-medium: 2px;
+  --border-width-thick:  4px;
+
+  --border-style-solid:  solid;
+  --border-style-dashed: dashed;
+  --border-style-dotted: dotted;
+
+  /* ── Radius ── */
+  --radius-none:   0;
+  --radius-sm:     0.25rem;   /* 4px  */
+  --radius-md:     0.5rem;    /* 8px  */
+  --radius-lg:     0.75rem;   /* 12px */
+  --radius-xl:     1rem;      /* 16px */
+  --radius-2xl:    1.5rem;    /* 24px */
+  --radius-full:   9999px;
+
+  /* ── Shadow ── */
+  --shadow-xs:  0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm:  0 1px 3px 0 rgb(0 0 0 / 0.10), 0 1px 2px -1px rgb(0 0 0 / 0.10);
+  --shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.10), 0 2px 4px -2px rgb(0 0 0 / 0.10);
+  --shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.10), 0 4px 6px -4px rgb(0 0 0 / 0.10);
+  --shadow-xl:  0 20px 25px -5px rgb(0 0 0 / 0.10), 0 8px 10px -6px rgb(0 0 0 / 0.10);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  --shadow-none:  0 0 #0000;
+
+  /* ── Motion ── */
+  --motion-duration-instant:  50ms;
+  --motion-duration-fast:     100ms;
+  --motion-duration-normal:   200ms;
+  --motion-duration-slow:     400ms;
+  --motion-duration-slower:   600ms;
+
+  --motion-easing-linear:      linear;
+  --motion-easing-ease:        ease;
+  --motion-easing-ease-in:     cubic-bezier(0.4, 0, 1, 1);
+  --motion-easing-ease-out:    cubic-bezier(0, 0, 0.2, 1);
+  --motion-easing-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-easing-spring:      cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ── Z-index scale ── */
+  --z-below:    -1;
+  --z-base:      0;
+  --z-raised:    10;
+  --z-dropdown:  100;
+  --z-sticky:    200;
+  --z-overlay:   300;
+  --z-modal:     400;
+  --z-popover:   500;
+  --z-toast:     600;
+  --z-tooltip:   700;
+
+  /* ── Content widths ── */
+  --size-content-xs:  20rem;   /* 320px  */
+  --size-content-sm:  30rem;   /* 480px  */
+  --size-content-md:  40rem;   /* 640px  */
+  --size-content-lg:  60rem;   /* 960px  */
+  --size-content-xl:  80rem;   /* 1280px */
+  --size-content-2xl: 96rem;   /* 1536px */
+}

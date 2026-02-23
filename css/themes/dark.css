@@ -1,0 +1,96 @@
+/**
+ * themes/dark.css
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Dark theme – overrides semantic color tokens only.
+ * Apply by setting [data-theme="dark"] on <html> or any container.
+ * The OS preference is also respected via prefers-color-scheme.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+[data-theme="dark"],
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --color-bg-base:        var(--palette-neutral-950);
+    --color-bg-subtle:      var(--palette-neutral-900);
+    --color-bg-muted:       var(--palette-neutral-800);
+    --color-bg-emphasis:    var(--palette-neutral-100);
+
+    --color-surface-default:  #1a1d20;
+    --color-surface-raised:   var(--palette-neutral-900);
+    --color-surface-overlay:  var(--palette-neutral-800);
+    --color-surface-inset:    var(--palette-neutral-700);
+
+    --color-border-default: var(--palette-neutral-700);
+    --color-border-subtle:  var(--palette-neutral-800);
+    --color-border-emphasis:var(--palette-neutral-500);
+
+    --color-text-primary:   var(--palette-neutral-50);
+    --color-text-secondary: var(--palette-neutral-300);
+    --color-text-muted:     var(--palette-neutral-500);
+    --color-text-disabled:  var(--palette-neutral-600);
+    --color-text-inverse:   var(--palette-neutral-900);
+    --color-text-on-brand:  var(--palette-neutral-0);
+
+    --color-brand-default:  var(--palette-brand-400);
+    --color-brand-hover:    var(--palette-brand-300);
+    --color-brand-active:   var(--palette-brand-200);
+    --color-brand-subtle:   #1c2333;
+    --color-brand-emphasis: var(--palette-brand-200);
+
+    --color-success-subtle: #0d2b12;
+    --color-warning-subtle: #2b1f06;
+    --color-danger-subtle:  #2b0d0d;
+    --color-info-subtle:    #082428;
+
+    --shadow-xs:  0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-sm:  0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+    --shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+    --shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+    --shadow-xl:  0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+  }
+}
+
+/* Explicit [data-theme="dark"] always wins regardless of OS preference */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg-base:        var(--palette-neutral-950);
+  --color-bg-subtle:      var(--palette-neutral-900);
+  --color-bg-muted:       var(--palette-neutral-800);
+  --color-bg-emphasis:    var(--palette-neutral-100);
+
+  --color-surface-default:  #1a1d20;
+  --color-surface-raised:   var(--palette-neutral-900);
+  --color-surface-overlay:  var(--palette-neutral-800);
+  --color-surface-inset:    var(--palette-neutral-700);
+
+  --color-border-default: var(--palette-neutral-700);
+  --color-border-subtle:  var(--palette-neutral-800);
+  --color-border-emphasis:var(--palette-neutral-500);
+
+  --color-text-primary:   var(--palette-neutral-50);
+  --color-text-secondary: var(--palette-neutral-300);
+  --color-text-muted:     var(--palette-neutral-500);
+  --color-text-disabled:  var(--palette-neutral-600);
+  --color-text-inverse:   var(--palette-neutral-900);
+  --color-text-on-brand:  var(--palette-neutral-0);
+
+  --color-brand-default:  var(--palette-brand-400);
+  --color-brand-hover:    var(--palette-brand-300);
+  --color-brand-active:   var(--palette-brand-200);
+  --color-brand-subtle:   #1c2333;
+  --color-brand-emphasis: var(--palette-brand-200);
+
+  --color-success-subtle: #0d2b12;
+  --color-warning-subtle: #2b1f06;
+  --color-danger-subtle:  #2b0d0d;
+  --color-info-subtle:    #082428;
+
+  --shadow-xs:  0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-sm:  0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+  --shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+  --shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  --shadow-xl:  0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+}

@@ -1,0 +1,24 @@
+/**
+ * main.css
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Entry point – imports all CSS layers in the correct cascade order.
+ *
+ * Layer order (lowest → highest specificity):
+ *   1. tokens    – Design tokens (CSS custom properties)
+ *   2. base      – CSS reset + base element styles
+ *   3. themes    – Theme overrides (light / dark)
+ *   4. layout    – Layout primitives
+ *   5. components– UI components
+ *   6. utilities – Utility overrides (highest priority)
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+@layer tokens, base, themes, layout, components, utilities;
+
+@import url("tokens.css")            layer(tokens);
+@import url("base.css")              layer(base);
+@import url("themes/light.css")      layer(themes);
+@import url("themes/dark.css")       layer(themes);
+@import url("layout.css")            layer(layout);
+@import url("components.css")        layer(components);
+@import url("utilities.css")         layer(utilities);
