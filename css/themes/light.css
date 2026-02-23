@@ -1,0 +1,59 @@
+/**
+ * themes/light.css
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Light theme – restores light surface / text / border tokens.
+ * Brand and status colours inherit from theme.config.css automatically.
+ *
+ * Applies when:
+ *   a) OS prefers light AND no explicit [data-theme] is set (default), OR
+ *   b) [data-theme="light"] is set explicitly to override a dark OS preference.
+ *
+ * Note: the default values in tokens.css already reflect light mode.
+ * This file only needs to explicitly re-set tokens that dark.css overrides,
+ * so that switching from dark → light works correctly at runtime.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Surface */
+  --color-bg-base:          var(--palette-neutral-0);
+  --color-bg-subtle:        var(--palette-neutral-50);
+  --color-bg-muted:         var(--palette-neutral-100);
+  --color-bg-emphasis:      var(--palette-neutral-900);
+
+  --color-surface-default:  var(--palette-neutral-0);
+  --color-surface-raised:   var(--palette-neutral-50);
+  --color-surface-overlay:  var(--palette-neutral-100);
+  --color-surface-inset:    var(--palette-neutral-200);
+
+  /* Border */
+  --color-border-default:   var(--palette-neutral-300);
+  --color-border-subtle:    var(--palette-neutral-200);
+  --color-border-emphasis:  var(--palette-neutral-500);
+
+  /* Text */
+  --color-text-primary:     var(--palette-neutral-900);
+  --color-text-secondary:   var(--palette-neutral-700);
+  --color-text-muted:       var(--palette-neutral-600);
+  --color-text-disabled:    var(--palette-neutral-400);
+  --color-text-inverse:     var(--palette-neutral-0);
+
+  /* Status subtle backgrounds (light) */
+  --color-success-subtle:   var(--cfg-success-subtle);
+  --color-warning-subtle:   var(--cfg-warning-subtle);
+  --color-danger-subtle:    var(--cfg-danger-subtle);
+  --color-info-subtle:      var(--cfg-info-subtle);
+
+  /* Brand subtle background (light) */
+  --color-brand-subtle:     var(--cfg-brand-subtle);
+
+  /* Shadows (light) */
+  --shadow-xs:  0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm:  0 1px 3px 0 rgb(0 0 0 / 0.10), 0 1px 2px -1px rgb(0 0 0 / 0.10);
+  --shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.10), 0 2px 4px -2px rgb(0 0 0 / 0.10);
+  --shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.10), 0 4px 6px -4px rgb(0 0 0 / 0.10);
+  --shadow-xl:  0 20px 25px -5px rgb(0 0 0 / 0.10), 0 8px 10px -6px rgb(0 0 0 / 0.10);
+}
+
