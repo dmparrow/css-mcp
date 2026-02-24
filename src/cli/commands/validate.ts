@@ -38,7 +38,9 @@ export function runValidateCommand(args: string[]): number {
     ...result,
   };
 
+  console.log("---JSON-START---");
   console.log(JSON.stringify(output, null, 2));
+  console.log("---JSON-END---");
 
   return result.outcome === "block" ? 2 : 0;
 }

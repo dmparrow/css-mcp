@@ -4,12 +4,17 @@ import chokidar from "chokidar";
 import { spawn, ChildProcess } from "node:child_process";
 import { getArgValue, resolveRepositoryRoot } from "../helpers.js";
 
+interface QueuedValidation {
+  file: string;
+  task?: string;
+}
+
 // Rate limiting and process management
 const MAX_CONCURRENT_VALIDATIONS = 2;
 const DEBOUNCE_DELAY = 300; // ms
 const activeProcesses = new Set<ChildProcess>();
 const debounceTimers = new Map<string, NodeJS.Timeout>();
-let validationQueue: string[] = [];
+let validationQueue: QueuedValidation[] = [];
 
 // Global config for the watch session
 let watchConfig: WatchConfig;
@@ -47,6 +52,10 @@ function toPosix(relativePath: string): string {
   return relativePath.replaceAll("\\", "/");
 }
 
+function normRelPosix(p: string): string {
+  return p.replaceAll("\\", "/").replace(/^\.\//, "");
+}
+
 // Process cleanup utilities
 function killActiveProcesses(): void {
   for (const child of activeProcesses) {
@@ -69,75 +78,167 @@ function setupGracefulShutdown(): void {
   process.on('exit', killActiveProcesses);
 }
 
-// Debounced validation scheduler
-function scheduleValidation(changedFile: string): void {
-  const existingTimer = debounceTimers.get(changedFile);
+function scheduleValidation(changedFile: string, task?: string): void {
+  console.log(`[watch] Scheduling validation for: ${changedFile} (task: ${task || 'default'})`);
+  const key = `${changedFile}:${task || 'default'}`;
+  const existingTimer = debounceTimers.get(key);
   if (existingTimer) {
     clearTimeout(existingTimer);
+    console.log(`[watch] Clearing existing timer for: ${key}`);
   }
   
   const timer = setTimeout(() => {
-    debounceTimers.delete(changedFile);
-    queueValidation(changedFile);
+    console.log(`[watch] Debounce complete, queuing validation for: ${changedFile}`);
+    debounceTimers.delete(key);
+    queueValidation(changedFile, task);
   }, DEBOUNCE_DELAY);
   
-  debounceTimers.set(changedFile, timer);
+  debounceTimers.set(key, timer);
 }
 
-function queueValidation(changedFile: string): void {
-  validationQueue = validationQueue.filter(file => file !== changedFile);
-  validationQueue.push(changedFile);
+function queueValidation(changedFile: string, task?: string): void {
+  console.log(`[watch] Queueing validation for: ${changedFile} (task: ${task || 'default'})`);
+  // Remove existing entry with same file AND task
+  validationQueue = validationQueue.filter(
+    item => !(item.file === changedFile && (item.task || 'default') === (task || 'default'))
+  );
+  validationQueue.push({ file: changedFile, task });
+  console.log(`[watch] Queue size: ${validationQueue.length}`);
   processValidationQueue();
 }
 
 function processValidationQueue(): void {
-  if (activeProcesses.size >= MAX_CONCURRENT_VALIDATIONS || validationQueue.length === 0) {
-    return;
-  }
-  
-  const fileToValidate = validationQueue.shift();
-  if (fileToValidate) {
-    runValidation(fileToValidate);
+  while (activeProcesses.size < MAX_CONCURRENT_VALIDATIONS && validationQueue.length > 0) {
+    const item = validationQueue.shift();
+    if (!item) break;
+    runValidation(item.file, item.task);
   }
 }
 
 function extractJsonOutput(rawOutput: string): ValidationResult | null {
-  const startIndex = rawOutput.indexOf("{");
-  const endIndex = rawOutput.lastIndexOf("}");
+  const startMarker = "---JSON-START---";
+  const endMarker = "---JSON-END---";
+  
+  const startIndex = rawOutput.indexOf(startMarker);
+  const endIndex = rawOutput.indexOf(endMarker);
+  
   if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {
-    return null;
+    // Fallback to legacy parsing for older CLI versions
+    return extractJsonOutputLegacy(rawOutput);
   }
-
+  
+  const jsonStart = startIndex + startMarker.length;
+  const jsonText = rawOutput.slice(jsonStart, endIndex).trim();
+  
   try {
-    return JSON.parse(rawOutput.slice(startIndex, endIndex + 1)) as ValidationResult;
-  } catch {
-    return null;
+    const parsed = JSON.parse(jsonText);
+    // Validate that it looks like a ValidationResult
+    if (parsed && 
+        typeof parsed === 'object' && 
+        'outcome' in parsed && 
+        'violations' in parsed &&
+        'summary' in parsed) {
+      return parsed as ValidationResult;
+    }
+  } catch (error) {
+    console.error("[watch] Failed to parse JSON between sentinels:", error);
   }
+  
+  return null;
 }
 
-function runValidation(changedFile: string): void {
+function extractJsonOutputLegacy(rawOutput: string): ValidationResult | null {
+  // Try to find JSON objects in the output
+  const lines = rawOutput.split('\n');
+  
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('{')) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        // Validate that it looks like a ValidationResult
+        if (parsed && 
+            typeof parsed === 'object' && 
+            'outcome' in parsed && 
+            'violations' in parsed &&
+            'summary' in parsed) {
+          return parsed as ValidationResult;
+        }
+      } catch {
+        // Continue to next line
+        continue;
+      }
+    }
+  }
+  
+  // Fallback: try to parse the entire output as JSON
+  try {
+    const parsed = JSON.parse(rawOutput.trim());
+    if (parsed && 
+        typeof parsed === 'object' && 
+        'outcome' in parsed && 
+        'violations' in parsed &&
+        'summary' in parsed) {
+      return parsed as ValidationResult;
+    }
+  } catch {
+    // Final fallback: try the original brittle method
+    const startIndex = rawOutput.indexOf("{");
+    const endIndex = rawOutput.lastIndexOf("}");
+    if (startIndex !== -1 && endIndex !== -1 && endIndex > startIndex) {
+      try {
+        return JSON.parse(rawOutput.slice(startIndex, endIndex + 1)) as ValidationResult;
+      } catch {
+        // Give up
+      }
+    }
+  }
+  
+  return null;
+}
+
+function createValidationProcess(changedFile: string, taskOverride?: string): ChildProcess {
+  const filePayload = JSON.stringify([changedFile]);
+  const cwd = process.cwd();
+  const isDev = !fs.existsSync(path.resolve(cwd, "dist/cli/index.js"));
+  
+  const task = taskOverride || watchConfig.task;
+  
+  const tsxBin = path.resolve(cwd, "node_modules/.bin/tsx");
+  const hasLocalTsx = fs.existsSync(tsxBin);
+  const command = isDev && hasLocalTsx ? tsxBin : isDev ? "npx" : process.execPath;
+  const args = isDev
+    ? [
+        ...(hasLocalTsx ? [] : ["tsx"]),
+        "src/cli/index.ts", 
+        "validate",
+        `--repoRoot=${watchConfig.projectRoot}`,
+        `--contractPath=${watchConfig.contractPath}`,
+        `--task=${task}`,
+        `--changedFiles=${filePayload}`,
+      ]
+    : [
+        path.resolve(cwd, "dist/cli/index.js"),
+        "validate",
+        `--repoRoot=${watchConfig.projectRoot}`,
+        `--contractPath=${watchConfig.contractPath}`,
+        `--task=${task}`,
+        `--changedFiles=${filePayload}`,
+      ];
+
+  return spawn(command, args, { stdio: ["ignore", "pipe", "pipe"] });
+}
+
+function runValidation(changedFile: string, taskOverride?: string): void {
   if (!watchConfig.contractPath) {
     console.error("[watch] Error: Contract path is not configured");
     return;
   }
 
-  const filePayload = JSON.stringify([changedFile]);
+  const task = taskOverride || watchConfig.task;
+  console.log(`\n[watch] validating ${changedFile} (task: ${task}, active: ${activeProcesses.size})`);
 
-  console.log(`\n[watch] validating ${changedFile} (active: ${activeProcesses.size})`);
-
-  const child = spawn(
-    process.execPath,
-    [
-      path.resolve(process.cwd(), "dist/cli/index.js"),
-      "validate",
-      `--repoRoot=${watchConfig.projectRoot}`,
-      `--contractPath=${watchConfig.contractPath}`,
-      `--task=${watchConfig.task}`,
-      `--changedFiles=${filePayload}`,
-    ],
-    { stdio: ["ignore", "pipe", "pipe"] },
-  );
-
+  const child = createValidationProcess(changedFile, taskOverride);
   activeProcesses.add(child);
 
   let stdout = "";
@@ -161,8 +262,9 @@ function runValidation(changedFile: string): void {
     if (!signal) {
       const parsed = extractJsonOutput(stdout);
       if (parsed?.outcome === "block") {
+        const changed = normRelPosix(changedFile);
         const blockingViolations = (parsed.violations ?? []).filter(
-          (violation: ValidationViolation) => violation.severity === "block" && violation.file === changedFile,
+          (violation: ValidationViolation) => violation.severity === "block" && normRelPosix(violation.file) === changed,
         );
 
         if (blockingViolations.length > 0) {
@@ -279,31 +381,51 @@ export function runWatchCommand(args: string[]): number {
 
   setupGracefulShutdown();
 
-  const watchPaths = watchConfig.watchPaths.map(p => path.join(watchConfig.projectRoot, p));
-  const watcher = chokidar.watch(watchPaths, {
+  // Watch directories instead of glob patterns - more reliable with chokidar
+  const watchDirectories = watchConfig.watchPaths.map(p => path.join(watchConfig.projectRoot, p));
+
+  console.log(`[watch] Watching directories: ${watchDirectories.join(", ")}`);
+  
+  const watcher = chokidar.watch(watchDirectories, {
+    ignored: [
+      "**/node_modules/**",
+      "**/.git/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/coverage/**",
+    ],
     ignoreInitial: true,
-    awaitWriteFinish: {
-      stabilityThreshold: 100,
-      pollInterval: 50
-    }
+    awaitWriteFinish: { stabilityThreshold: 100, pollInterval: 50 },
   });
 
   watcher
+    .on("ready", () => {
+      console.log("[watch] Chokidar watcher is ready");
+    })
+    .on("all", (event, filePath) => {
+      console.log(`[watch] Event detected: ${event} on ${filePath}`);
+    })
     .on("change", (filePath: string) => {
+      console.log(`[watch] File changed: ${filePath}`);
       if (isStyleFile(filePath)) {
+        console.log(`[watch] Style file detected, scheduling validation: ${filePath}`);
         scheduleValidation(toRepoRelativePosix(filePath, watchConfig.projectRoot));
       }
     })
     .on("add", (filePath: string) => {
+      console.log(`[watch] File added: ${filePath}`);
       if (isStyleFile(filePath)) {
+        console.log(`[watch] New style file detected, scheduling validation: ${filePath}`);
         scheduleValidation(toRepoRelativePosix(filePath, watchConfig.projectRoot));
       }
     })
-    .on("unlink", (filePath: string) => {
-      if (isStyleFile(filePath)) {
-        scheduleValidation(toRepoRelativePosix(filePath, watchConfig.projectRoot));
-      }
-    })
+    // Skip unlink validation for now - validating deleted files causes confusing errors
+    // TODO: Implement boundary-only validation for unlink events
+    // .on("unlink", (filePath: string) => {
+    //   if (isStyleFile(filePath)) {
+    //     scheduleValidation(toRepoRelativePosix(filePath, watchConfig.projectRoot), "boundary-check");
+    //   }
+    // })
     .on("error", (error: unknown) => {
       console.error("[watch] Watcher error:", error);
     });
