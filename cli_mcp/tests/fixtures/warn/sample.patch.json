@@ -1,0 +1,7 @@
+{
+  "task": "full",
+  "changedFiles": [
+    "README.md",
+    "AGENT_API.md"
+  ]
+}

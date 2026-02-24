@@ -1,0 +1,24 @@
+{
+  "name": "arrow-stack-cli-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "CLI + MCP validator for Arrow Stack Themer agent contract",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "validate": "tsx src/cli/index.ts validate",
+    "explain": "tsx src/cli/index.ts explain",
+    "generate": "tsx src/cli/index.ts generate",
+    "mcp:dev": "tsx src/mcp/server.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

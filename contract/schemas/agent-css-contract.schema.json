@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://arrow-stack-themer.dev/schemas/agent-css-contract.schema.json",
+  "type": "object",
+  "required": [
+    "version",
+    "project",
+    "themeVariables",
+    "taskWriteSurfaces",
+    "layerInvariants",
+    "componentApi"
+  ],
+  "properties": {
+    "version": { "type": "string" },
+    "project": { "type": "string" },
+    "themeVariables": {
+      "type": "object",
+      "required": ["count", "writeSurface", "variables"],
+      "properties": {
+        "count": { "type": "integer", "minimum": 1 },
+        "writeSurface": { "type": "array", "items": { "type": "string" } },
+        "variables": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "taskWriteSurfaces": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    },
+    "layerInvariants": {
+      "type": "object",
+      "required": ["mainCss", "requiredImports", "requiredLayers"],
+      "properties": {
+        "mainCss": { "type": "string" },
+        "requiredImports": { "type": "array", "items": { "type": "string" } },
+        "requiredLayers": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "componentApi": {
+      "type": "object",
+      "required": ["dataAttributes"],
+      "properties": {
+        "dataAttributes": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "outcome",
+    "violations",
+    "summary"
+  ],
+  "properties": {
+    "outcome": {
+      "enum": [
+        "pass",
+        "warn",
+        "block"
+      ]
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "rule",
+          "severity",
+          "message"
+        ],
+        "properties": {
+          "rule": {
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "info",
+              "warn",
+              "block"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string"
+          },
+          "hint": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "total",
+        "warnings",
+        "blocks"
+      ],
+      "properties": {
+        "total": {
+          "type": "integer"
+        },
+        "warnings": {
+          "type": "integer"
+        },
+        "blocks": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

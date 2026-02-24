@@ -1,0 +1,6 @@
+{
+  "task": "theme-edit",
+  "changedFiles": [
+    "css/theme.config.css"
+  ]
+}

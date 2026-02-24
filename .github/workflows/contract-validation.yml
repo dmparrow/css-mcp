@@ -1,0 +1,33 @@
+name: Contract Validation
+
+on:
+  pull_request:
+    branches: ["main", "master"]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install
+        working-directory: cli_mcp
+        run: npm install
+
+      - name: Build
+        working-directory: cli_mcp
+        run: npm run build
+
+      - name: Validate
+        working-directory: cli_mcp
+        run: npm run validate -- --task=full
+
+      - name: Test
+        working-directory: cli_mcp
+        run: npm run test

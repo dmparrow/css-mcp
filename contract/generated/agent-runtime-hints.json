@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "project": "Arrow Stack Themer",
+  "taskWriteSurfaces": {
+    "theme-edit": [
+      "css/theme.config.css"
+    ],
+    "component-add": [
+      "css/components/**",
+      "css/components.css",
+      "AGENT_API.md",
+      "README.md",
+      "index.html",
+      "walkthrough.html"
+    ],
+    "full": [
+      "**"
+    ]
+  },
+  "dataAttributes": [
+    "data-variant",
+    "data-status",
+    "data-size",
+    "data-state",
+    "data-orientation"
+  ],
+  "themeVariables": [
+    "--cfg-brand",
+    "--cfg-brand-hover",
+    "--cfg-brand-active",
+    "--cfg-brand-subtle",
+    "--cfg-brand-on",
+    "--cfg-success",
+    "--cfg-success-subtle",
+    "--cfg-warning",
+    "--cfg-warning-subtle",
+    "--cfg-danger",
+    "--cfg-danger-subtle",
+    "--cfg-info",
+    "--cfg-info-subtle",
+    "--cfg-radius",
+    "--cfg-font-sans",
+    "--cfg-font-mono",
+    "--cfg-space-unit",
+    "--cfg-motion-speed"
+  ]
+}
