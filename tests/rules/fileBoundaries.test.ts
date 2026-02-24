@@ -5,7 +5,7 @@ import { runFileBoundariesRule } from "../../src/engine/rules/fileBoundaries.js"
 
 describe("file boundaries rule", () => {
   it("blocks file outside theme-edit surface", () => {
-    const repositoryRoot = path.resolve(__dirname, "../../..");
+    const repositoryRoot = path.resolve(__dirname, "../..");
     const result = runFileBoundariesRule(
       {
         repositoryRoot,

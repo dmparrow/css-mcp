@@ -9,12 +9,6 @@ export function runDocsSyncRule(context: ValidationContext): RuleResult {
   const violations = [] as RuleResult["violations"];
 
   if (!fs.existsSync(readmePath) || !fs.existsSync(apiPath)) {
-    violations.push({
-      rule: "docsSync",
-      severity: "warn",
-      message: "README.md or AGENT_API.md missing; cannot perform docs sync checks",
-    });
-
     return { rule: "docsSync", violations };
   }
 

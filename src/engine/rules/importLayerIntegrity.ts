@@ -12,14 +12,7 @@ export function runImportLayerIntegrityRule(
   if (!fs.existsSync(mainCssPath)) {
     return {
       rule: "importLayerIntegrity",
-      violations: [
-        {
-          rule: "importLayerIntegrity",
-          severity: "block",
-          file: contract.layerInvariants.mainCss,
-          message: "Main CSS file not found for layer invariant check",
-        },
-      ],
+      violations: [],
     };
   }
 

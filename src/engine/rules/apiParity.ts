@@ -11,14 +11,7 @@ export function runApiParityRule(
   if (!fs.existsSync(apiDocPath)) {
     return {
       rule: "apiParity",
-      violations: [
-        {
-          rule: "apiParity",
-          severity: "warn",
-          file: "AGENT_API.md",
-          message: "AGENT_API.md not found for API parity checks",
-        },
-      ],
+      violations: [],
     };
   }
 

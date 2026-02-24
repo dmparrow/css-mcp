@@ -6,7 +6,7 @@ import { validatePatch } from "../../src/engine/validatePatch.js";
 
 describe("CLI/MCP parity", () => {
   it("returns same outcome for same input", () => {
-    const repositoryRoot = path.resolve(__dirname, "../../..");
+    const repositoryRoot = path.resolve(__dirname, "../..");
     const context = {
       repositoryRoot,
       task: "theme-edit" as const,
