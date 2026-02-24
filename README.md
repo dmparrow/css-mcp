@@ -37,6 +37,8 @@ Example:
 npm run validate -- --repoRoot=/path/to/repo --contractPath=contract/agent-css-contract.v1.json --task=component-add
 ```
 
+For React/Vue projects, set `tokenUsage.scanPaths` in the target contract to match framework CSS locations (for example `src/**/*.css`, `src/**/*.module.css`, `src/**/*.scss`).
+
 ## MCP
 
 Run server locally:

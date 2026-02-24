@@ -5,6 +5,7 @@
   "required": [
     "version",
     "project",
+    "tokenUsage",
     "themeVariables",
     "taskWriteSurfaces",
     "layerInvariants",
@@ -13,6 +14,17 @@
   "properties": {
     "version": { "type": "string" },
     "project": { "type": "string" },
+    "tokenUsage": {
+      "type": "object",
+      "required": ["scanPaths"],
+      "properties": {
+        "scanPaths": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      }
+    },
     "themeVariables": {
       "type": "object",
       "required": ["count", "writeSurface", "variables"],

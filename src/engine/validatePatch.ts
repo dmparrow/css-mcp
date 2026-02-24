@@ -13,7 +13,7 @@ export function validatePatch(
   const results = [
     runFileBoundariesRule(context, contract),
     runImportLayerIntegrityRule(context, contract),
-    runTokenUsageRule(context),
+    runTokenUsageRule(context, contract),
     runApiParityRule(context, contract),
     runDocsSyncRule(context),
   ];

@@ -1,6 +1,11 @@
 {
   "version": "1.0.0",
   "project": "Arrow Stack Themer",
+  "tokenUsage": {
+    "scanPaths": [
+      "css/components/**"
+    ]
+  },
   "themeVariables": {
     "count": 18,
     "writeSurface": [

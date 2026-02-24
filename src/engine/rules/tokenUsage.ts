@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { RuleResult, ValidationContext, Violation } from "../types.js";
+import type { AgentCssContract, RuleResult, ValidationContext, Violation } from "../types.js";
 
 function collectFiles(dirPath: string): string[] {
   if (!fs.existsSync(dirPath)) {
@@ -25,9 +25,44 @@ function collectFiles(dirPath: string): string[] {
   return files;
 }
 
-export function runTokenUsageRule(context: ValidationContext): RuleResult {
-  const componentDir = path.join(context.repositoryRoot, "css", "components");
-  const files = collectFiles(componentDir);
+function walkRepositoryCssFiles(repositoryRoot: string): string[] {
+  return collectFiles(repositoryRoot).map((filePath) => path.relative(repositoryRoot, filePath));
+}
+
+function escapeRegex(text: string): string {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function globLikeMatch(filePath: string, pattern: string): boolean {
+  const normalizedPath = filePath.replaceAll("\\", "/");
+  const normalizedPattern = pattern.replaceAll("\\", "/");
+
+  if (normalizedPattern === "**") {
+    return true;
+  }
+
+  if (normalizedPattern.endsWith("/**")) {
+    const prefix = normalizedPattern.slice(0, -3);
+    return normalizedPath === prefix || normalizedPath.startsWith(`${prefix}/`);
+  }
+
+  const regex = new RegExp(
+    `^${escapeRegex(normalizedPattern)
+      .replace(/\\\*\\\*/g, ".*")
+      .replace(/\\\*/g, "[^/]*")}$`,
+  );
+
+  return regex.test(normalizedPath);
+}
+
+export function runTokenUsageRule(
+  context: ValidationContext,
+  contract: AgentCssContract,
+): RuleResult {
+  const candidateFiles = walkRepositoryCssFiles(context.repositoryRoot);
+  const files = candidateFiles
+    .filter((relativePath) => contract.tokenUsage.scanPaths.some((pattern) => globLikeMatch(relativePath, pattern)))
+    .map((relativePath) => path.join(context.repositoryRoot, relativePath));
   const violations: Violation[] = [];
 
   for (const filePath of files) {

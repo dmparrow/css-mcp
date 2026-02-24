@@ -32,6 +32,9 @@ export interface ValidationResult {
 export interface AgentCssContract {
   version: string;
   project: string;
+  tokenUsage: {
+    scanPaths: string[];
+  };
   themeVariables: {
     count: number;
     writeSurface: string[];

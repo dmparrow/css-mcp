@@ -13,7 +13,7 @@ export function loadContract(repositoryRoot: string, contractPathArg?: string): 
 
   const parsed = JSON.parse(fs.readFileSync(contractPath, "utf8")) as AgentCssContract;
 
-  if (!parsed.version || !parsed.themeVariables || !parsed.taskWriteSurfaces) {
+  if (!parsed.version || !parsed.tokenUsage || !parsed.themeVariables || !parsed.taskWriteSurfaces) {
     throw new Error("Invalid contract shape: missing required top-level fields");
   }
 
