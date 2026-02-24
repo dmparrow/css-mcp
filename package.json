@@ -24,12 +24,15 @@
     "validate": "tsx src/cli/index.ts validate",
     "explain": "tsx src/cli/index.ts explain",
     "generate": "tsx src/cli/index.ts generate",
-    "mcp:dev": "tsx src/mcp/server.ts"
+    "mcp:dev": "tsx src/mcp/server.ts",
+    "watch": "tsx src/cli/index.ts watch"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.17.5"
+    "@modelcontextprotocol/sdk": "^1.17.5",
+    "chokidar": "^4.0.1"
   },
   "devDependencies": {
+    "@types/chokidar": "^1.7.5",
     "@types/node": "^22.10.2",
     "stylelint": "^16.2.0",
     "tsx": "^4.20.5",
