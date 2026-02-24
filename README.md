@@ -39,6 +39,11 @@ npm run validate -- --repoRoot=/path/to/repo --contractPath=contract/agent-css-c
 
 For React/Vue projects, set `tokenUsage.scanPaths` in the target contract to match framework CSS locations (for example `src/**/*.css`, `src/**/*.module.css`, `src/**/*.scss`).
 
+Starter examples are available at:
+
+- `contract/examples/react-agent-css-contract.v1.json`
+- `contract/examples/vue-agent-css-contract.v1.json`
+
 ## MCP
 
 Run server locally:

@@ -17,7 +17,7 @@ function collectFiles(dirPath: string): string[] {
       continue;
     }
 
-    if (entry.isFile() && entry.name.endsWith(".css")) {
+    if (entry.isFile()) {
       files.push(nextPath);
     }
   }
@@ -33,26 +33,51 @@ function escapeRegex(text: string): string {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+function segmentMatch(pathSegment: string, patternSegment: string): boolean {
+  const regex = new RegExp(`^${escapeRegex(patternSegment).replace(/\\\*/g, "[^/]*")}$`);
+  return regex.test(pathSegment);
+}
+
 function globLikeMatch(filePath: string, pattern: string): boolean {
   const normalizedPath = filePath.replaceAll("\\", "/");
   const normalizedPattern = pattern.replaceAll("\\", "/");
 
-  if (normalizedPattern === "**") {
-    return true;
-  }
+  const pathSegments = normalizedPath.split("/").filter(Boolean);
+  const patternSegments = normalizedPattern.split("/").filter(Boolean);
 
-  if (normalizedPattern.endsWith("/**")) {
-    const prefix = normalizedPattern.slice(0, -3);
-    return normalizedPath === prefix || normalizedPath.startsWith(`${prefix}/`);
-  }
+  const matchFrom = (pathIndex: number, patternIndex: number): boolean => {
+    if (patternIndex >= patternSegments.length) {
+      return pathIndex >= pathSegments.length;
+    }
 
-  const regex = new RegExp(
-    `^${escapeRegex(normalizedPattern)
-      .replace(/\\\*\\\*/g, ".*")
-      .replace(/\\\*/g, "[^/]*")}$`,
-  );
+    const currentPattern = patternSegments[patternIndex];
 
-  return regex.test(normalizedPath);
+    if (currentPattern === "**") {
+      if (patternIndex === patternSegments.length - 1) {
+        return true;
+      }
+
+      for (let nextPathIndex = pathIndex; nextPathIndex <= pathSegments.length; nextPathIndex += 1) {
+        if (matchFrom(nextPathIndex, patternIndex + 1)) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    if (pathIndex >= pathSegments.length) {
+      return false;
+    }
+
+    if (!segmentMatch(pathSegments[pathIndex], currentPattern)) {
+      return false;
+    }
+
+    return matchFrom(pathIndex + 1, patternIndex + 1);
+  };
+
+  return matchFrom(0, 0);
 }
 
 export function runTokenUsageRule(

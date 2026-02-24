@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "project": "Vue Project",
+  "tokenUsage": {
+    "scanPaths": [
+      "src/**/*.css",
+      "src/**/*.scss",
+      "src/components/**/*.vue"
+    ]
+  },
+  "themeVariables": {
+    "count": 0,
+    "writeSurface": [
+      "src/styles/theme.css"
+    ],
+    "variables": []
+  },
+  "taskWriteSurfaces": {
+    "theme-edit": [
+      "src/styles/**"
+    ],
+    "component-add": [
+      "src/components/**",
+      "src/styles/**",
+      "README.md"
+    ],
+    "full": [
+      "**"
+    ]
+  },
+  "layerInvariants": {
+    "mainCss": "__disabled__/main.css",
+    "requiredImports": [],
+    "requiredLayers": []
+  },
+  "componentApi": {
+    "dataAttributes": [
+      "data-variant",
+      "data-size",
+      "data-state"
+    ]
+  }
+}

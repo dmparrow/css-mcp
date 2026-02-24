@@ -82,4 +82,23 @@ describe("token usage rule", () => {
 
     expect(result.violations.length).toBe(0);
   });
+
+  it("scans Vue single-file components when configured", () => {
+    const repositoryRoot = makeTempRepo();
+    const vueFile = path.join(repositoryRoot, "src", "components", "Button.vue");
+    fs.mkdirSync(path.dirname(vueFile), { recursive: true });
+    fs.writeFileSync(vueFile, "<style scoped>\n.button { color: #ff0000; }\n</style>\n", "utf8");
+
+    const result = runTokenUsageRule(
+      {
+        repositoryRoot,
+        task: "full",
+        changedFiles: [],
+      },
+      makeContract(["src/components/**/*.vue"]),
+    );
+
+    expect(result.violations.length).toBe(1);
+    expect(result.violations[0].file).toBe("src/components/Button.vue");
+  });
 });
