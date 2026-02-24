@@ -13,7 +13,25 @@ export function runFileBoundariesRule(
   context: ValidationContext,
   contract: AgentCssContract,
 ): RuleResult {
-  const allowedPatterns = (contract.taskWriteSurfaces[context.task] ?? ["**"]).map(normalizeForMatch);
+  const taskSurfaces = contract.taskWriteSurfaces[context.task];
+
+  // Emit violation if task is unknown in contract
+  if (!taskSurfaces) {
+    return {
+      rule: "fileBoundaries",
+      violations: [
+        {
+          rule: "fileBoundaries",
+          severity: "block",
+          file: "contract",
+          message: `Task '${context.task}' not found in taskWriteSurfaces`,
+          hint: `Available tasks: ${Object.keys(contract.taskWriteSurfaces).join(", ")}`,
+        },
+      ],
+    };
+  }
+
+  const allowedPatterns = taskSurfaces.map(normalizeForMatch);
 
   const violations: Violation[] = context.changedFiles
     .map((filePath) => ({
