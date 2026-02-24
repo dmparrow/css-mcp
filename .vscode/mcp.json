@@ -4,7 +4,7 @@
       "type": "stdio",
       "command": "node",
       "cwd": "${workspaceFolder}",
-      "args": ["./cli_mcp/dist/mcp/server.js"]
+      "args": ["./dist/mcp/server.js"]
     }
   }
 }
