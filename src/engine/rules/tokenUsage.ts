@@ -14,6 +14,14 @@ const DEFAULT_IGNORE_PATTERNS = [
   "out/**",
 ];
 
+const toPosix = (p: string) => p.replace(/\\/g, "/");
+
+const normalizeForMatch = (p: string) => {
+  // remove leading ./ (common from tooling)
+  const cleaned = p.replace(/^[.][/\\]/, "");
+  return toPosix(cleaned);
+};
+
 function isIgnored(filePath: string, ignorePatterns: string[]): boolean {
   return ignorePatterns.some((pattern) => globLikeMatch(filePath, pattern));
 }
@@ -42,7 +50,9 @@ function collectFiles(dirPath: string): string[] {
 }
 
 function walkRepositoryCssFiles(repositoryRoot: string): string[] {
-  return collectFiles(repositoryRoot).map((filePath) => path.relative(repositoryRoot, filePath));
+  return collectFiles(repositoryRoot)
+    .map((filePath) => path.relative(repositoryRoot, filePath))
+    .map(normalizeForMatch);
 }
 
 export function runTokenUsageRule(
@@ -50,11 +60,12 @@ export function runTokenUsageRule(
   contract: AgentCssContract,
 ): RuleResult {
   const candidateFiles = walkRepositoryCssFiles(context.repositoryRoot);
-  const ignorePatterns = [...DEFAULT_IGNORE_PATTERNS];
+  const ignorePatterns = DEFAULT_IGNORE_PATTERNS.map(normalizeForMatch);
+  const scanPatterns = contract.tokenUsage.scanPaths.map(normalizeForMatch);
 
   const files = candidateFiles
     .filter((relativePath) => !isIgnored(relativePath, ignorePatterns))
-    .filter((relativePath) => contract.tokenUsage.scanPaths.some((pattern) => globLikeMatch(relativePath, pattern)))
+    .filter((relativePath) => scanPatterns.some((pattern) => globLikeMatch(relativePath, pattern)))
     .map((relativePath) => path.join(context.repositoryRoot, relativePath));
 
   const violations: Violation[] = [];
@@ -62,6 +73,7 @@ export function runTokenUsageRule(
   for (const filePath of files) {
     const content = fs.readFileSync(filePath, "utf8");
     const lines = content.split("\n");
+    const relativePosixPath = normalizeForMatch(path.relative(context.repositoryRoot, filePath));
 
     lines.forEach((line, index) => {
       const trimmed = line.trim();
@@ -76,7 +88,7 @@ export function runTokenUsageRule(
         violations.push({
           rule: "tokenUsage",
           severity: "block",
-          file: path.relative(context.repositoryRoot, filePath),
+          file: relativePosixPath,
           message: `Hard-coded color found at line ${index + 1}`,
           hint: "Use semantic token variables instead (e.g., var(--color-brand-default))",
         });
