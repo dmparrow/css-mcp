@@ -35,6 +35,11 @@ export interface AgentCssContract {
   tokenUsage: {
     scanPaths: string[];
   };
+  logging?: {
+    enabled: boolean;
+    level?: "debug" | "info" | "warn" | "error";
+    format?: "json" | "text";
+  };
   themeVariables: {
     count: number;
     writeSurface: string[];
