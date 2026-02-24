@@ -8,7 +8,7 @@ function printHelp(): void {
   console.log(`arrow-stack-cli-mcp
 
 Usage:
-  validate [--repoRoot=path] [--contractPath=path] [--task=theme-edit|component-add|full] [--files=a,b,c]
+  validate [--repoRoot=path] [--contractPath=path] [--task=theme-edit|component-add|full] [--files=a,b,c] [--format=json]
   explain  [--repoRoot=path] [--contractPath=path] [--task=theme-edit|component-add|full] [--files=a,b,c]
   generate [--repoRoot=path] [--contractPath=path]
   watch    [--repoRoot=path] [--contractPath=path] [--task=theme-edit|component-add|full] [--watch-paths=src,styles]

@@ -10,6 +10,7 @@ export function runValidateCommand(args: string[]): number {
     ? path.resolve(cwd, getArgValue(args, "--repoRoot") as string)
     : resolveRepositoryRoot(cwd);
   const contractPath = getArgValue(args, "--contractPath");
+  const format = getArgValue(args, "--format");
 
   const task = (getArgValue(args, "--task") ?? "full") as ValidationContext["task"];
 
@@ -38,9 +39,15 @@ export function runValidateCommand(args: string[]): number {
     ...result,
   };
 
-  console.log("---JSON-START---");
-  console.log(JSON.stringify(output, null, 2));
-  console.log("---JSON-END---");
+  if (format === "json") {
+    // Clean JSON output for programmatic consumption
+    console.log(JSON.stringify(output, null, 2));
+  } else {
+    // Default output with sentinels for robust parsing
+    console.log("---JSON-START---");
+    console.log(JSON.stringify(output, null, 2));
+    console.log("---JSON-END---");
+  }
 
   return result.outcome === "block" ? 2 : 0;
 }

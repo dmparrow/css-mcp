@@ -116,6 +116,21 @@ function processValidationQueue(): void {
 }
 
 function extractJsonOutput(rawOutput: string): ValidationResult | null {
+  // First try to parse as clean JSON (from --format=json)
+  try {
+    const parsed = JSON.parse(rawOutput.trim());
+    if (parsed && 
+        typeof parsed === 'object' && 
+        'outcome' in parsed && 
+        'violations' in parsed &&
+        'summary' in parsed) {
+      return parsed as ValidationResult;
+    }
+  } catch {
+    // Continue to sentinel parsing for backward compatibility
+  }
+
+  // Try sentinel-based parsing (legacy format)
   const startMarker = "---JSON-START---";
   const endMarker = "---JSON-END---";
   
@@ -216,6 +231,7 @@ function createValidationProcess(changedFile: string, taskOverride?: string): Ch
         `--contractPath=${watchConfig.contractPath}`,
         `--task=${task}`,
         `--changedFiles=${filePayload}`,
+        `--format=json`,
       ]
     : [
         path.resolve(cwd, "dist/cli/index.js"),
@@ -224,6 +240,7 @@ function createValidationProcess(changedFile: string, taskOverride?: string): Ch
         `--contractPath=${watchConfig.contractPath}`,
         `--task=${task}`,
         `--changedFiles=${filePayload}`,
+        `--format=json`,
       ];
 
   return spawn(command, args, { stdio: ["ignore", "pipe", "pipe"] });
