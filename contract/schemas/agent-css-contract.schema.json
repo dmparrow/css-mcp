@@ -25,6 +25,20 @@
         }
       }
     },
+    "logging": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "level": {
+          "type": "string",
+          "enum": ["debug", "info", "warn", "error"]
+        },
+        "format": {
+          "type": "string",
+          "enum": ["json", "text"]
+        }
+      }
+    },
     "themeVariables": {
       "type": "object",
       "required": ["count", "writeSurface", "variables"],

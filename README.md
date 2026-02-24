@@ -1,17 +1,17 @@
-# Arrow Stack CLI + MCP
+# Arrow Stack CSS Validator
 
-Repository for the `cli_mcp` contract-validation toolchain.
+Contract-driven CSS validation tool with CLI, MCP server, and stylelint plugin support.
 
 ## What this repo contains
 
-- `cli_mcp/` — TypeScript implementation of shared validator engine, CLI, MCP server, tests.
-- `contract/` — contract, schema, and generated artifacts used by the tool.
+- `src/` — TypeScript implementation of shared validator engine, CLI, MCP server, plugins.
+- `contract/` — contract, schema, generated artifacts, and example contracts.
+- `tests/` — test suites for rules, logging, and CLI/MCP parity.
 - `.github/workflows/contract-validation.yml` — CI workflow for build/validate/test.
 
 ## Quick start
 
 ```bash
-cd cli_mcp
 npm install
 npm run build
 npm run test
@@ -20,7 +20,6 @@ npm run test
 ## CLI
 
 ```bash
-cd cli_mcp
 npm run validate -- --task=full
 npm run explain -- --task=full
 npm run generate
@@ -49,7 +48,6 @@ Starter examples are available at:
 Run server locally:
 
 ```bash
-cd cli_mcp
 npm run mcp:dev
 ```
 
@@ -70,7 +68,7 @@ Workspace config example (`.vscode/mcp.json`):
       "type": "stdio",
       "command": "node",
       "cwd": "${workspaceFolder}",
-      "args": ["./cli_mcp/dist/mcp/server.js"]
+      "args": ["./dist/mcp/server.js"]
     }
   }
 }

@@ -1,9 +1,23 @@
 {
-  "name": "arrow-stack-cli-mcp",
+  "name": "arrow-stack-css-validator",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "CLI + MCP validator for Arrow Stack Themer agent contract",
+  "description": "CLI + MCP + stylelint validator for CSS/SCSS contracts with logging support",
+  "main": "./dist/cli/index.js",
+  "bin": {
+    "arrow-validate": "./dist/cli/index.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/cli/index.js",
+      "types": "./dist/cli/index.d.ts"
+    },
+    "./stylelint": {
+      "import": "./dist/plugins/stylelint/index.js",
+      "types": "./dist/plugins/stylelint/index.d.ts"
+    }
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "vitest run",
@@ -17,6 +31,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
+    "stylelint": "^16.2.0",
     "tsx": "^4.20.5",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
