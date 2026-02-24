@@ -56,6 +56,41 @@ function normRelPosix(p: string): string {
   return p.replaceAll("\\", "/").replace(/^\.\//, "");
 }
 
+function writeStatusArtifact(validationResult: ValidationResult, changedFile: string, exitCode: number | null): void {
+  try {
+    const artifactDir = path.join(watchConfig.projectRoot, ".arrow-stack");
+    if (!fs.existsSync(artifactDir)) {
+      fs.mkdirSync(artifactDir, { recursive: true });
+    }
+
+    const statusArtifact = {
+      timestamp: new Date().toISOString(),
+      changedFile,
+      exitCode,
+      validation: validationResult,
+      summary: {
+        outcome: validationResult.outcome,
+        totalViolations: validationResult.summary.total,
+        blockingViolations: validationResult.summary.blocks,
+        warningViolations: validationResult.summary.warnings,
+        filesValidated: validationResult.changedFiles.length,
+      },
+      environment: {
+        projectRoot: watchConfig.projectRoot,
+        contractPath: watchConfig.contractPath,
+        task: watchConfig.task,
+      },
+    };
+
+    const artifactPath = path.join(artifactDir, "validation-status.json");
+    fs.writeFileSync(artifactPath, JSON.stringify(statusArtifact, null, 2));
+    
+    console.log(`[watch] Status artifact written: ${path.relative(watchConfig.projectRoot, artifactPath)}`);
+  } catch (error) {
+    console.error("[watch] Failed to write status artifact:", error);
+  }
+}
+
 // Process cleanup utilities
 function killActiveProcesses(): void {
   for (const child of activeProcesses) {
@@ -278,22 +313,31 @@ function runValidation(changedFile: string, taskOverride?: string): void {
     
     if (!signal) {
       const parsed = extractJsonOutput(stdout);
-      if (parsed?.outcome === "block") {
-        const changed = normRelPosix(changedFile);
-        const blockingViolations = (parsed.violations ?? []).filter(
-          (violation: ValidationViolation) => violation.severity === "block" && normRelPosix(violation.file) === changed,
-        );
+      if (parsed) {
+        // Write status artifact for every validation
+        writeStatusArtifact(parsed, changedFile, code);
+        
+        if (parsed.outcome === "block") {
+          const changed = normRelPosix(changedFile);
+          const blockingViolations = (parsed.violations ?? []).filter(
+            (violation: ValidationViolation) => violation.severity === "block" && normRelPosix(violation.file) === changed,
+          );
 
-        if (blockingViolations.length > 0) {
-          console.log(`[watch] AGENT_ACTION_REQUIRED ${changedFile}`);
-          console.log("[watch] Blocking violations:");
-          for (const violation of blockingViolations) {
-            console.log(`  - ${violation.rule}: ${violation.message}`);
-            if (violation.hint) {
-              console.log(`    hint: ${violation.hint}`);
+          if (blockingViolations.length > 0) {
+            console.log(`[watch] AGENT_ACTION_REQUIRED ${changedFile}`);
+            console.log("[watch] Blocking violations:");
+            for (const violation of blockingViolations) {
+              console.log(`  - ${violation.rule}: ${violation.message}`);
+              if (violation.hint) {
+                console.log(`    hint: ${violation.hint}`);
+              }
             }
           }
+        } else {
+          console.log(`[watch] ✅ Validation passed for ${changedFile}`);
         }
+      } else {
+        console.log(`[watch] ⚠️ Failed to parse validation output for ${changedFile}`);
       }
     }
     
