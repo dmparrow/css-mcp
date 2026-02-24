@@ -1,17 +1,17 @@
-# Arrow Stack CLI + MCP
+# Arrow Stack Themer
 
-Repository for the `cli_mcp` contract-validation toolchain.
+CLI and MCP server for validating agent-driven CSS changes against an Arrow Stack policy contract.
 
 ## What this repo contains
 
-- `cli_mcp/` — TypeScript implementation of shared validator engine, CLI, MCP server, tests.
+- `src/` — TypeScript implementation of the validator engine, CLI, and MCP server.
+- `tests/` — Vitest test suite.
 - `contract/` — contract, schema, and generated artifacts used by the tool.
 - `.github/workflows/contract-validation.yml` — CI workflow for build/validate/test.
 
 ## Quick start
 
 ```bash
-cd cli_mcp
 npm install
 npm run build
 npm run test
@@ -20,7 +20,6 @@ npm run test
 ## CLI
 
 ```bash
-cd cli_mcp
 npm run validate -- --task=full
 npm run explain -- --task=full
 npm run generate
@@ -49,7 +48,6 @@ Starter examples are available at:
 Run server locally:
 
 ```bash
-cd cli_mcp
 npm run mcp:dev
 ```
 
@@ -70,7 +68,7 @@ Workspace config example (`.vscode/mcp.json`):
       "type": "stdio",
       "command": "node",
       "cwd": "${workspaceFolder}",
-      "args": ["./cli_mcp/dist/mcp/server.js"]
+      "args": ["./dist/mcp/server.js"]
     }
   }
 }
