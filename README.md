@@ -33,12 +33,23 @@ npm run watch -- --task=component-add
 Install globally for system-wide access:
 
 ```bash
+# From npm registry (when published)
 npm install -g arrow-stack-css-validator
+
+# From local repository (requires sudo for global install)
+sudo npm install -g ./
 ```
 
-> **Note:** Currently marked as private. For global install, either publish to npm or install directly from the repository:
+> **Note:** Currently marked as private. For global install from the local repository, you need sudo permissions. Alternatively, you can:
+> 
+> **Option 1 - Local install with npx:**
 > ```bash
-> npm install -g /path/to/arrow-stack-themer
+> npx --package ./dist/cli/index.js arrow-validate validate --task=full
+> ```
+> 
+> **Option 2 - Direct node execution:**
+> ```bash
+> node ./dist/cli/index.js validate --task=full
 > ```
 
 Once installed globally, use the `arrow-validate` command:
