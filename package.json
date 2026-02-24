@@ -5,6 +5,9 @@
   "type": "module",
   "description": "CLI + MCP + stylelint validator for CSS/SCSS contracts with logging support",
   "main": "./dist/cli/index.js",
+  "bin": {
+    "arrow-validate": "./dist/cli/index.js"
+  },
   "exports": {
     ".": {
       "import": "./dist/cli/index.js",

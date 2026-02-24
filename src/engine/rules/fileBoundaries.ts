@@ -1,17 +1,6 @@
 import path from "node:path";
 import type { AgentCssContract, RuleResult, ValidationContext, Violation } from "../types.js";
-
-function globLikeMatch(filePath: string, pattern: string): boolean {
-  if (pattern === "**") {
-    return true;
-  }
-
-  if (pattern.endsWith("/**")) {
-    return filePath.startsWith(pattern.slice(0, -3));
-  }
-
-  return filePath === pattern;
-}
+import { globLikeMatch } from "../glob.js";
 
 export function runFileBoundariesRule(
   context: ValidationContext,
