@@ -4,6 +4,7 @@ import type { ValidationContext } from "../../engine/types.js";
 
 export interface ValidatePatchIntentInput {
   repositoryRoot: string;
+  contractPath?: string;
   task?: ValidationContext["task"];
   changedFiles?: string[];
 }
@@ -18,6 +19,6 @@ export function validatePatchIntent(input: ValidatePatchIntentInput) {
       task,
       changedFiles,
     },
-    loadContract(input.repositoryRoot),
+    loadContract(input.repositoryRoot, input.contractPath),
   );
 }

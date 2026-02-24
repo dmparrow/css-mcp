@@ -74,8 +74,8 @@
 
 .c-button[data-variant="danger"] {
   --button-bg:        var(--color-danger-default);
-  --button-bg-hover:  #c92a2a;
-  --button-bg-active: #b02525;
+  --button-bg-hover:  var(--color-danger-default);
+  --button-bg-active: var(--color-danger-default);
   --button-color:     var(--color-text-inverse);
   --button-border:    transparent;
 }

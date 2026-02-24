@@ -28,6 +28,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           type: "object",
           properties: {
             repositoryRoot: { type: "string" },
+            contractPath: { type: "string" },
             task: { type: "string", enum: ["theme-edit", "component-add", "full"] },
             changedFiles: { type: "array", items: { type: "string" } },
           },
@@ -50,7 +51,10 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         description: "Generate runtime hints and policy report schema from contract",
         inputSchema: {
           type: "object",
-          properties: {},
+          properties: {
+            repositoryRoot: { type: "string" },
+            contractPath: { type: "string" }
+          },
         },
       },
     ],
@@ -62,6 +66,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
   if (name === "validatePatchIntent") {
     const repositoryRoot = path.resolve(String(args?.repositoryRoot ?? process.cwd()));
+    const contractPath = args?.contractPath ? String(args.contractPath) : undefined;
     const task = args?.task ? String(args.task) : undefined;
     const changedFiles = Array.isArray(args?.changedFiles)
       ? args?.changedFiles.map((filePath) => String(filePath))
@@ -69,6 +74,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     const validationResult = validatePatchIntent({
       repositoryRoot,
+      contractPath,
       task: task as "theme-edit" | "component-add" | "full" | undefined,
       changedFiles,
     });
@@ -96,7 +102,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   }
 
   if (name === "generateArtifacts") {
-    const result = generateArtifacts();
+    const repositoryRoot = args?.repositoryRoot ? String(args.repositoryRoot) : undefined;
+    const contractPath = args?.contractPath ? String(args.contractPath) : undefined;
+    const result = generateArtifacts({ repositoryRoot, contractPath });
     return {
       content: [
         {

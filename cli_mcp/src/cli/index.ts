@@ -7,9 +7,9 @@ function printHelp(): void {
   console.log(`arrow-stack-cli-mcp
 
 Usage:
-  validate [--task=theme-edit|component-add|full] [--files=a,b,c]
-  explain  [--task=theme-edit|component-add|full] [--files=a,b,c]
-  generate
+  validate [--repoRoot=path] [--contractPath=path] [--task=theme-edit|component-add|full] [--files=a,b,c]
+  explain  [--repoRoot=path] [--contractPath=path] [--task=theme-edit|component-add|full] [--files=a,b,c]
+  generate [--repoRoot=path] [--contractPath=path]
 `);
 }
 
@@ -25,7 +25,7 @@ switch (command) {
     exitCode = runExplainCommand(args);
     break;
   case "generate":
-    exitCode = runGenerateCommand();
+    exitCode = runGenerateCommand(args);
     break;
   default:
     printHelp();

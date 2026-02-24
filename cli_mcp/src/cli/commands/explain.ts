@@ -1,17 +1,20 @@
+import path from "node:path";
 import { loadContract } from "../../contract/loadContract.js";
 import { validatePatch } from "../../engine/validatePatch.js";
 import type { ValidationContext } from "../../engine/types.js";
-import { getChangedFiles, resolveRepositoryRoot } from "../helpers.js";
+import { getArgValue, getChangedFiles, resolveRepositoryRoot } from "../helpers.js";
 
 export function runExplainCommand(args: string[]): number {
-  const repositoryRoot = resolveRepositoryRoot(process.cwd());
-  const taskArg = args.find((arg) => arg.startsWith("--task="));
-  const task = (taskArg?.split("=")[1] ?? "full") as ValidationContext["task"];
+  const cwd = process.cwd();
+  const repositoryRoot = getArgValue(args, "--repoRoot")
+    ? path.resolve(cwd, getArgValue(args, "--repoRoot") as string)
+    : resolveRepositoryRoot(cwd);
+  const contractPath = getArgValue(args, "--contractPath");
+  const task = (getArgValue(args, "--task") ?? "full") as ValidationContext["task"];
 
-  const filesArg = args.find((arg) => arg.startsWith("--files="));
+  const filesArg = getArgValue(args, "--files");
   const changedFiles = filesArg
     ? filesArg
-        .split("=")[1]
         .split(",")
         .map((f) => f.trim())
         .filter(Boolean)
@@ -23,7 +26,7 @@ export function runExplainCommand(args: string[]): number {
       task,
       changedFiles,
     },
-    loadContract(repositoryRoot),
+    loadContract(repositoryRoot, contractPath),
   );
 
   if (result.violations.length === 0) {

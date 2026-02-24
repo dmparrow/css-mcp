@@ -1,0 +1,10 @@
+{
+  "servers": {
+    "arrow-stack-contract": {
+      "type": "stdio",
+      "command": "node",
+      "cwd": "${workspaceFolder}",
+      "args": ["./cli_mcp/dist/mcp/server.js"]
+    }
+  }
+}

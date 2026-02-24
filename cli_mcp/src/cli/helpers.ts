@@ -6,7 +6,11 @@ export function resolveRepositoryRoot(startDir: string): string {
   let current = path.resolve(startDir);
 
   while (true) {
-    if (fs.existsSync(path.join(current, "AGENT_API.md"))) {
+    if (
+      fs.existsSync(path.join(current, ".git")) ||
+      fs.existsSync(path.join(current, "AGENT_API.md")) ||
+      fs.existsSync(path.join(current, "contract", "agent-css-contract.v1.json"))
+    ) {
       return current;
     }
 
@@ -36,4 +40,10 @@ export function getChangedFiles(repositoryRoot: string): string[] {
 
 export function readJsonFile<T>(filePath: string): T {
   return JSON.parse(fs.readFileSync(filePath, "utf8")) as T;
+}
+
+export function getArgValue(args: string[], key: string): string | undefined {
+  const prefix = `${key}=`;
+  const match = args.find((arg) => arg.startsWith(prefix));
+  return match ? match.slice(prefix.length) : undefined;
 }

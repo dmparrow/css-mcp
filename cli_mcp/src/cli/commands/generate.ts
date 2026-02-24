@@ -1,11 +1,15 @@
 import fs from "node:fs";
 import path from "node:path";
 import { loadContract } from "../../contract/loadContract.js";
-import { resolveRepositoryRoot } from "../helpers.js";
+import { getArgValue, resolveRepositoryRoot } from "../helpers.js";
 
-export function runGenerateCommand(): number {
-  const repositoryRoot = resolveRepositoryRoot(process.cwd());
-  const contract = loadContract(repositoryRoot);
+export function runGenerateCommand(args: string[] = []): number {
+  const cwd = process.cwd();
+  const repositoryRoot = getArgValue(args, "--repoRoot")
+    ? path.resolve(cwd, getArgValue(args, "--repoRoot") as string)
+    : resolveRepositoryRoot(cwd);
+  const contractPath = getArgValue(args, "--contractPath");
+  const contract = loadContract(repositoryRoot, contractPath);
 
   const generatedDir = path.join(repositoryRoot, "contract", "generated");
   fs.mkdirSync(generatedDir, { recursive: true });

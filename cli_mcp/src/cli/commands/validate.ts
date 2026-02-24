@@ -2,19 +2,20 @@ import path from "node:path";
 import { loadContract } from "../../contract/loadContract.js";
 import { validatePatch } from "../../engine/validatePatch.js";
 import type { ValidationContext } from "../../engine/types.js";
-import { getChangedFiles, resolveRepositoryRoot } from "../helpers.js";
+import { getArgValue, getChangedFiles, resolveRepositoryRoot } from "../helpers.js";
 
 export function runValidateCommand(args: string[]): number {
   const cwd = process.cwd();
-  const repositoryRoot = resolveRepositoryRoot(cwd);
+  const repositoryRoot = getArgValue(args, "--repoRoot")
+    ? path.resolve(cwd, getArgValue(args, "--repoRoot") as string)
+    : resolveRepositoryRoot(cwd);
+  const contractPath = getArgValue(args, "--contractPath");
 
-  const taskArg = args.find((arg) => arg.startsWith("--task="));
-  const task = (taskArg?.split("=")[1] ?? "full") as ValidationContext["task"];
+  const task = (getArgValue(args, "--task") ?? "full") as ValidationContext["task"];
 
-  const filesArg = args.find((arg) => arg.startsWith("--files="));
+  const filesArg = getArgValue(args, "--files");
   const files = filesArg
     ? filesArg
-        .split("=")[1]
         .split(",")
         .map((f) => f.trim())
         .filter(Boolean)
@@ -26,11 +27,12 @@ export function runValidateCommand(args: string[]): number {
     changedFiles: files,
   };
 
-  const contract = loadContract(repositoryRoot);
+  const contract = loadContract(repositoryRoot, contractPath);
   const result = validatePatch(context, contract);
 
   const output = {
     repositoryRoot: path.relative(cwd, repositoryRoot) || ".",
+    contractPath: contractPath ?? "contract/agent-css-contract.v1.json",
     task,
     changedFiles: files,
     ...result,
